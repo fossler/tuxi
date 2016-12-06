@@ -1,5 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env/ bash
 
 printf "Hello World!\n"
 
-exit 0
+exit
