@@ -5,7 +5,7 @@ os_name (){
   if [[ -z $LSB_BIN ]]; then
     cat /etc/os-release | grep -e "^ID" | cut -d= -f2
   else
-    els_release -is
+    lsb_release -is
   fi
 }
 
