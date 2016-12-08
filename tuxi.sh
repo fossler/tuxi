@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
 
-printf "Hello World!\n"
+os_name (){
+  LSB_BIN=$(which lsb_release)
+  if [[ -z $LSB_BIN ]]; then
+    cat /etc/os-release | grep -e "^ID" | cut -d= -f2
+  else
+    els_release -is
+  fi
+}
 
 exit
