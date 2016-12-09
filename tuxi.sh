@@ -9,4 +9,8 @@ os_name (){
   fi
 }
 
+os_type (){
+  uname -o
+}
+
 exit
