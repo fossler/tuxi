@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+hostn (){
+  hostname -s
+}
+
 os_name (){
   LSB_BIN=$(which lsb_release)
   if [[ -z $LSB_BIN ]]; then
