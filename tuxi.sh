@@ -17,6 +17,10 @@ os_type (){
   uname -o
 }
 
+os_arch (){
+  uname -m
+}
+
 printf "x============[ Systeminfo ]============================================[ $(date)]===============\n"
 printf ""
 exit
