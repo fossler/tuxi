@@ -21,6 +21,12 @@ os_arch (){
   uname -m
 }
 
+# Color definitions
+COLOR='\e[33m' # Yellow
+BAD='\e[31m' # Red
+GOOD='\e[32m' # Green
+NORMAL_FONT='\e[0m'
+
 printf "x============[ Systeminfo ]============================================[ $(date)]===============\n"
 printf ""
 exit
