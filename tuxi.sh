@@ -21,12 +21,21 @@ os_arch (){
   uname -m
 }
 
+os_release (){
+  if [[ -z $LSB_RELEASE ]]; then
+    cat /etc/os-release | grep "VERSION_ID" | cut -d'"' -f2
+  else
+    lsb_release -rs
+  fi
+}
+
+
 # Color definitions
 COLOR='\e[33m' # Yellow
 BAD='\e[31m' # Red
 GOOD='\e[32m' # Green
 NORMAL_FONT='\e[0m'
 
-printf "x============[ Systeminfo ]============================================[ $(date)]===============\n"
+printf "x============[ Systeminfo ]============================================[ $(date) ]===============\n"
 printf ""
 exit
