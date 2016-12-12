@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
 
+# general vars
+LSB_BIN=$(which lsb_release)
+
 hostn (){
   hostname -s
 }
 
 os_name (){
-  LSB_BIN=$(which lsb_release)
   if [[ -z $LSB_BIN ]]; then
     cat /etc/os-release | grep -e "^ID" | cut -d= -f2
   else
@@ -22,7 +24,7 @@ os_arch (){
 }
 
 os_release (){
-  if [[ -z $LSB_RELEASE ]]; then
+  if [[ -z $LSB_BIN ]]; then
     cat /etc/os-release | grep "VERSION_ID" | cut -d'"' -f2
   else
     lsb_release -rs
