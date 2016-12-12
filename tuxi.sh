@@ -31,6 +31,16 @@ os_release (){
   fi
 }
 
+os_codename (){
+  if [[ -z $LSB_BIN ]]; then
+    cat /etc/os-release | grep -e "VERSION_CODENAME=" | cut -d= -f2
+  else
+    lsb_release -cs
+  fi
+}
+
+
+
 
 # Color definitions
 COLOR='\e[33m' # Yellow
