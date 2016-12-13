@@ -39,7 +39,9 @@ os_codename (){
   fi
 }
 
-
+os_kernel_release (){
+  uname -r
+}
 
 
 # Color definitions
