@@ -54,6 +54,13 @@ net_ip_external (){
   fi
 }
 
+net_domain (){
+  if [[ $(hostname -d) == "" ]]; then
+    printf "%-3s\n" "---"
+  else
+    hostname -d
+  fi
+}
 
 # Color definitions
 COLOR='\e[33m' # Yellow
