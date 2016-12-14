@@ -43,6 +43,10 @@ os_kernel_release (){
   uname -r
 }
 
+net_ip_internal (){
+  hostname -I
+}
+
 
 # Color definitions
 COLOR='\e[33m' # Yellow
