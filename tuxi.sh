@@ -47,6 +47,13 @@ net_ip_internal (){
   hostname -I
 }
 
+net_ip_external (){
+  dig +short myip.opendns.com @resolver1.opendns.com &> /dev/zero
+  if [[ $? -ne 0 ]]; then
+    printf "Could not resolve\n"
+  fi
+}
+
 
 # Color definitions
 COLOR='\e[33m' # Yellow
