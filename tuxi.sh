@@ -67,7 +67,7 @@ net_inet_con_state (){
 }
 
 net_nic_state (){
-  ip -o link show $1 2> /dev/zero | awk '{print $9'
+  ip -o link show $1 2> /dev/zero | awk '{print $9}'
 }
 
 # Color definitions
