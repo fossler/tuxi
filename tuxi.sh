@@ -70,6 +70,11 @@ net_nic_state (){
   ip -o link show $1 2> /dev/zero | awk '{print $9}'
 }
 
+net_get_active_nic (){
+  ip route show | grep "default" | cut -d" " -f3
+}
+
+
 # Color definitions
 COLOR='\e[33m' # Yellow
 BAD='\e[31m' # Red
