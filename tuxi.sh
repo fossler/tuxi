@@ -62,6 +62,10 @@ net_domain (){
   fi
 }
 
+net_inet_con_state (){
+  ping -c 1 google.com &> /dev/zero && echo -e "$GOOD"Connected"$NORMAL_FONT" || echo -e "$BAD"Disconnected"$NORMAL_FONT"
+}
+
 # Color definitions
 COLOR='\e[33m' # Yellow
 BAD='\e[31m' # Red
