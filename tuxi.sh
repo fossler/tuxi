@@ -74,6 +74,14 @@ net_get_active_nic (){
   ip route show | grep "default" | cut -d" " -f3
 }
 
+net_get_gateway (){
+  VAR_GATEWAY=$(ip route show | grep -E 'default.*'$1'' | cut -d" " -f3)
+  if [[ -z $VAR_GATEWAY ]]; then
+    printf "%-3s" "---"
+  else
+    printf "%-15s" "$VAR_GATEWAY"
+  fi
+}
 
 # Color definitions
 COLOR='\e[33m' # Yellow
