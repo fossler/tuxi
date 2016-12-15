@@ -83,6 +83,14 @@ net_get_gateway (){
   fi
 }
 
+sys_check_reboot (){
+  if [[ -f /var/run/reboot-required ]]; then
+    printf "$BAD%-30s$NORMAL_FONT" '*** System reboot required ***'
+  else
+    printf "$GOOD%-30s$NORMAL_FONT" '*** No reboot required ***'
+  fi
+}  
+
 # Color definitions
 COLOR='\e[33m' # Yellow
 BAD='\e[31m' # Red
