@@ -83,6 +83,17 @@ net_get_gateway (){
   fi
 }
 
+net_mac_addr (){
+  VAR_MAC=$(ip -o link show $1 2> /dev/zero | awk '{print $17}')
+  if [[ -z $VAR_MAC ]]; then
+    printf "%-3s" "---"
+  else
+    printf "%-15s" "$VAR_MAC"
+  fi
+}
+
+
+
 sys_check_reboot (){
   if [[ -f /var/run/reboot-required ]]; then
     printf "$BAD%-30s$NORMAL_FONT" '*** System reboot required ***'
@@ -90,6 +101,7 @@ sys_check_reboot (){
     printf "$GOOD%-30s$NORMAL_FONT" '*** No reboot required ***'
   fi
 }  
+
 
 # Color definitions
 COLOR='\e[33m' # Yellow
