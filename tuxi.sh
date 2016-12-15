@@ -66,6 +66,10 @@ net_inet_con_state (){
   ping -c 1 google.com &> /dev/zero && echo -e "$GOOD"Connected"$NORMAL_FONT" || echo -e "$BAD"Disconnected"$NORMAL_FONT"
 }
 
+net_nic_state (){
+  ip -o link show $1 2> /dev/zero | awk '{print $9'
+}
+
 # Color definitions
 COLOR='\e[33m' # Yellow
 BAD='\e[31m' # Red
