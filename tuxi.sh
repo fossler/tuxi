@@ -92,8 +92,15 @@ net_mac_addr (){
   fi
 }
 
-
-
+net_nic_ip (){
+  NIC_VAR=$(ifconfig $1 2> /dev/zero | grep 'inet addr:' | cut -d: -f2 | awk '{print $1}')
+  if [[ -z $NIC_VAR ]]; then
+    printf "%-3s\n" "---"
+  else
+    printf "$NIC_VAR"
+  fi
+}
+  
 sys_check_reboot (){
   if [[ -f /var/run/reboot-required ]]; then
     printf "$BAD%-30s$NORMAL_FONT" '*** System reboot required ***'
@@ -101,6 +108,7 @@ sys_check_reboot (){
     printf "$GOOD%-30s$NORMAL_FONT" '*** No reboot required ***'
   fi
 }  
+
 
 
 # Color definitions
