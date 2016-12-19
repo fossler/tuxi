@@ -100,6 +100,15 @@ net_nic_ip (){
     printf "$NIC_VAR"
   fi
 }
+
+net_nic_netmask (){
+  NM_VAR=$(ifconfig $1 2> /dev/zero | grep "Mask" | cut -d":" -f4)
+  if [[ z- $NM_VAR ]]; then
+    printf "%-3s\n" "---"
+  else
+    printf "$NM_VAR"
+  fi
+}  
   
 sys_check_reboot (){
   if [[ -f /var/run/reboot-required ]]; then
