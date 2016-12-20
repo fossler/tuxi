@@ -132,7 +132,9 @@ sys_check_reboot (){
   fi
 }  
 
-
+sys_desk_env (){
+  printf "$XDG_CURRENT_DESKTOP"
+}
 
 # Color definitions
 COLOR='\e[33m' # Yellow
