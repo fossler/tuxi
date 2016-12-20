@@ -114,6 +114,16 @@ net_dhcp_srv (){
   grep "DHCPACK" /var/log/syslog | tail 1 | cut -d' ' -f10
 }
 
+net_dns_srv (){
+  if [[ -z $DISPLAY ]]; then
+    ACTIVE_NIC=$(ip route show | grep "default" | head -1 | cut -d" " -f5)
+    MY_NS=$(nmcli device show $ACTIVE_NIC | grep "IP4.DNS" | cut -d":" -f2
+    printf "$MY_NS"
+  else
+    cat /etc/resolv.conf | grep "nameserver" | sed 's/nameserver//'
+  fi
+}
+
 sys_check_reboot (){
   if [[ -f /var/run/reboot-required ]]; then
     printf "$BAD%-30s$NORMAL_FONT" '*** System reboot required ***'
