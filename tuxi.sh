@@ -109,7 +109,11 @@ net_nic_netmask (){
     printf "$NM_VAR"
   fi
 }  
-  
+
+net_dhcp_srv (){
+  grep "DHCPACK" /var/log/syslog | tail 1 | cut -d' ' -f10
+}
+
 sys_check_reboot (){
   if [[ -f /var/run/reboot-required ]]; then
     printf "$BAD%-30s$NORMAL_FONT" '*** System reboot required ***'
