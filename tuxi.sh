@@ -43,6 +43,18 @@ os_kernel_release (){
   uname -r
 }
 
+sys_check_reboot (){
+  if [[ -f /var/run/reboot-required ]]; then
+    printf "$BAD%-30s$NORMAL_FONT" '*** System reboot required ***'
+  else
+    printf "$GOOD%-30s$NORMAL_FONT" '*** No reboot required ***'
+  fi
+}  
+
+sys_desk_env (){
+  printf "$XDG_CURRENT_DESKTOP"
+}
+
 net_ip_internal (){
   hostname -I
 }
@@ -124,17 +136,7 @@ net_dns_srv (){
   fi
 }
 
-sys_check_reboot (){
-  if [[ -f /var/run/reboot-required ]]; then
-    printf "$BAD%-30s$NORMAL_FONT" '*** System reboot required ***'
-  else
-    printf "$GOOD%-30s$NORMAL_FONT" '*** No reboot required ***'
-  fi
-}  
 
-sys_desk_env (){
-  printf "$XDG_CURRENT_DESKTOP"
-}
 
 # Color definitions
 COLOR='\e[33m' # Yellow
