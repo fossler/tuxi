@@ -66,7 +66,13 @@ sys_check_updates (){
     printf "%-72s %-40s" '' '$SEC_UPDATES'
   fi
 }  
-  
+
+user_login_shell (){
+  USER_LOGIN_SHELL=${SHELL##*/}
+  printf "$USER_LOGIN_SHELL"
+}
+
+
 net_ip_internal (){
   hostname -I
 }
