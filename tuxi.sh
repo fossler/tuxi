@@ -55,6 +55,18 @@ sys_desk_env (){
   printf "$XDG_CURRENT_DESKTOP"
 }
 
+sys_check_updates (){
+  UPDATES=$(usr/lib/update-notifier/apt-check 2>&1)
+  if [[ $UPDATES == '0;0' ]]; then
+    printf "no updates are available"
+  else
+    UPDATES=$(usr/lib/update-notifier/apt-check --human-readable | sed -n '1p')
+    SEC_UPDATES=$(usr/lib/update-notifier/apt-check --human-readable | sed -n '2p')
+    printf "$UPDATES\n"
+    printf "%-72s %-40s" '' '$SEC_UPDATES'
+  fi
+}  
+  
 net_ip_internal (){
   hostname -I
 }
