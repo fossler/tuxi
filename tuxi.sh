@@ -72,6 +72,29 @@ user_login_shell (){
   printf "$USER_LOGIN_SHELL"
 }
 
+user_login_shell_ver (){
+  case "$USER_LOGIN_SHELL" in
+    bash)
+      BASH_VER=$(bash --version | grep "bash.*version" | cut -d' ' -f4 | cut -d'(' -f1)
+      echo "$BASH_VER"
+      ;;
+    csh)
+      # TBD
+      ;;
+    dash)
+      # TBD
+      ;;
+    ksh)
+      # TBD
+      ;;
+    tcsh)
+      # TBD
+      ;;
+    zsh)
+      ZSH_VER=$(zsh --version | cut -d' ' -f2
+      ;;
+  esac
+}
 
 net_ip_internal (){
   hostname -I
