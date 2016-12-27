@@ -91,7 +91,7 @@ user_login_shell_ver (){
       # TBD
       ;;
     zsh)
-      ZSH_VER=$(zsh --version | cut -d' ' -f2
+      ZSH_VER=$(zsh --version | cut -d' ' -f2)
       ;;
   esac
   
