@@ -94,6 +94,27 @@ user_login_shell_ver (){
       ZSH_VER=$(zsh --version | cut -d' ' -f2
       ;;
   esac
+  
+}
+user_group_membership (){
+  USER_GROUPS=$(id | cut -d'=' -f4)
+  OIFS=$IFS
+  IFS=,
+  COUNTER=0
+  declare -r SPLITTER=7
+  for i in $USER_GROUPS; do
+      if [[ $COUNTER -eq $SPLITTER ]]; then
+         printf "\n|\n"
+         printf "%-20s" '|'
+         printf "$i  "
+         counter=0
+	    else
+	       printf "$i  "
+      fi
+      (( counter++ ))
+  done
+  printf "\n"
+  IFS=$OIFS
 }
 
 net_ip_internal (){
