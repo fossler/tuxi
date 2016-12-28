@@ -198,7 +198,9 @@ net_dns_srv (){
   fi
 }
 
-
+hw_cpu (){
+  cat /proc/cpuinfo | grep "model name" | head -1 | cut -d":" -f2 | sed 's/[[:space:]]//'
+}
 
 # Color definitions
 COLOR='\e[33m' # Yellow
