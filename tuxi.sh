@@ -202,6 +202,10 @@ hw_cpu (){
   cat /proc/cpuinfo | grep "model name" | head -1 | cut -d":" -f2 | sed 's/[[:space:]]//'
 }
 
+hw_cpu_cores (){
+  cat /proc/cpuinfo | grep processor | wc -l
+}
+
 # Color definitions
 COLOR='\e[33m' # Yellow
 BAD='\e[31m' # Red
