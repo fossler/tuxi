@@ -206,6 +206,15 @@ hw_cpu_cores (){
   cat /proc/cpuinfo | grep processor | wc -l
 }
 
+hw_cpu_HT (){
+  grep flags /proc/cpuinfo | grep -wo ht &> /dev/zero
+  if [[ $? -eq 0 ]]; then
+    printf "Yes\n"
+  else
+    printf "No\n"
+  fi
+}
+
 # Color definitions
 COLOR='\e[33m' # Yellow
 BAD='\e[31m' # Red
