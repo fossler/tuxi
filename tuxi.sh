@@ -215,6 +215,15 @@ hw_cpu_HT (){
   fi
 }
 
+hw_system_vendor (){
+  SYS_VENDOR=/sys/devices/virtual/dmi/id/sys_vendor
+  if [[ -f $SYS_VENDOR ]]; then
+    cat $SYS_VENDOR
+  else
+    printf "not available\n"
+  fi
+}
+
 # Color definitions
 COLOR='\e[33m' # Yellow
 BAD='\e[31m' # Red
