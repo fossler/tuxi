@@ -224,6 +224,15 @@ hw_system_vendor (){
   fi
 }
 
+hw_system_model (){
+  PODUCT_NAME=/sys/devices/virtual/dmi/id/product_name
+  if [[ -f $PODUCT_NAME ]]; then
+    cat $PODUCT_NAME
+  else
+    printf "not available\n"
+  fi
+}
+
 # Color definitions
 COLOR='\e[33m' # Yellow
 BAD='\e[31m' # Red
