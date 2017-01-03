@@ -233,6 +233,15 @@ hw_system_model (){
   fi
 }
 
+hw_system_version (){
+  SYS_VER=/sys/devices/virtual/dmi/id/product_version
+  if [[ -f $SYS_VER ]]; then
+    cat $SYS_VER
+  else
+    printf "not available\n"
+  fi
+}
+
 # Color definitions
 COLOR='\e[33m' # Yellow
 BAD='\e[31m' # Red
