@@ -2,6 +2,7 @@
 
 # general vars
 LSB_BIN=$(which lsb_release)
+GLXINFO_BIN=$(which glxinfo)
 
 hostn (){
   hostname -s
