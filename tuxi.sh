@@ -242,6 +242,16 @@ hw_system_version (){
   fi
 }
 
+hw_gpu_card (){
+  lshw=$(which glxinfo)
+  if [[ -z $lshw ]];then
+    printf " not available\n"
+  else
+    lshw -C display 2> /dev/zero | grep product | cut -d":" -f2 | sed 's/[[:space:]]//'
+    # lspci -vnn | grep VGA -A 12
+  fi
+}
+
 # Color definitions
 COLOR='\e[33m' # Yellow
 BAD='\e[31m' # Red
