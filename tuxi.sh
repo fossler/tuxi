@@ -244,12 +244,22 @@ hw_system_version (){
 }
 
 hw_gpu_card (){
-  lshw=$(which glxinfo)
   if [[ -z $lshw ]];then
     printf " not available\n"
   else
     lshw -C display 2> /dev/zero | grep product | cut -d":" -f2 | sed 's/[[:space:]]//'
     # lspci -vnn | grep VGA -A 12
+  fi
+}
+
+hw_gpu_renderer (){
+  glxinfo &> /dev/zero
+  if [[ $? -ne 0 ]]; then
+    printf " not available\n"
+  elif [[ -z $GLXINFO_BIN ]]; then
+    printf " not available\n"
+  else
+    glxinfo 2> /dev/zero | grep "OpenGL renderer string" | cut -d':' -f2 | sed 's/[[:space:]]//'
   fi
 }
 
