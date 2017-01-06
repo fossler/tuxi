@@ -273,6 +273,18 @@ hw_gpu_memory_size (){
     glxinfo 2> /dev/zero | grep "Video memory:" | cut -d: -f2
   fi
 }
+
+hw_gpu_opengl_version (){
+  glxinfo &> /dev/zero
+  if [[ $? -ne 0 ]]; then
+    printf " not available\n"
+  elif [[ -z $GLXINFO_BIN ]]; then
+    printf " not available\n"
+  else
+    glxinfo 2> /dev/zero | grep "OpenGL version string:" | cut -d: -f2
+  fi
+}
+
 # Color definitions
 COLOR='\e[33m' # Yellow
 BAD='\e[31m' # Red
