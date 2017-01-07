@@ -294,6 +294,15 @@ hw_mobo_vendor (){
   fi
 }
 
+hw_mobo_version (){
+  MOBO_VERSION=/sys/devices/virtual/dmi/id/board_version
+  if [[ -f $MOBO_VERSION ]]; then
+    cat $MOBO_VERSION
+  else
+    printf "not available\n"
+  fi
+}
+
 # Color definitions
 COLOR='\e[33m' # Yellow
 BAD='\e[31m' # Red
