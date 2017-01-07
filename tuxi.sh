@@ -285,6 +285,15 @@ hw_gpu_opengl_version (){
   fi
 }
 
+hw_mobo_vendor (){
+  MOBO_VENDOR=/sys/devices/virtual/dmi/id/board_vendor
+  if [[ -f $MOBO_VENDOR ]]; then
+    cat $MOBO_VENDOR
+  else
+    printf "not available\n"
+  fi
+}
+
 # Color definitions
 COLOR='\e[33m' # Yellow
 BAD='\e[31m' # Red
