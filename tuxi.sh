@@ -347,6 +347,15 @@ hw_mobo_bios_version (){
   fi
 }
 
+hw_mobo_bios_date (){
+  BIOS_DATE=/sys/devices/virtual/dmi/id/bios_date
+  if [[ -f $BIOS_DATE ]]; then
+    cat $BIOS_DATE
+  else
+    printf "not available\n"
+  fi
+}
+
 # Color definitions
 COLOR='\e[33m' # Yellow
 BAD='\e[31m' # Red
