@@ -338,6 +338,15 @@ hw_mobo_bios_vendor (){
   fi
 }
 
+hw_mobo_bios_version (){
+  BIOS_VERSION=/sys/devices/virtual/dmi/id/bios_version
+  if [[ -f $BIOS_VERSION ]]; then
+    cat $BIOS_VERSION
+  else
+    printf "not available\n"
+  fi
+}
+
 # Color definitions
 COLOR='\e[33m' # Yellow
 BAD='\e[31m' # Red
