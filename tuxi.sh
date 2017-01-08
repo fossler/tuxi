@@ -4,6 +4,9 @@
 LSB_BIN=$(which lsb_release)
 GLXINFO_BIN=$(which glxinfo)
 
+# Systeminfo
+# ##############################################################
+
 hostn (){
   hostname -s
 }
@@ -68,6 +71,9 @@ sys_check_updates (){
   fi
 }  
 
+# User info
+# ##############################################################
+
 user_login_shell (){
   USER_LOGIN_SHELL=${SHELL##*/}
   printf "$USER_LOGIN_SHELL"
@@ -121,6 +127,14 @@ user_group_membership (){
 net_ip_internal (){
   hostname -I
 }
+
+# System Security
+# ##############################################################
+
+
+
+# Network info
+# ##############################################################
 
 net_ip_external (){
   dig +short myip.opendns.com @resolver1.opendns.com &> /dev/zero
@@ -198,6 +212,9 @@ net_dns_srv (){
     cat /etc/resolv.conf | grep "nameserver" | sed 's/nameserver//'
   fi
 }
+
+# Hardware & Ressources
+# ##############################################################
 
 hw_cpu (){
   cat /proc/cpuinfo | grep "model name" | head -1 | cut -d":" -f2 | sed 's/[[:space:]]//'
