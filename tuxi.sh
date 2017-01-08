@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 # general vars
+# ##############################################################
 LSB_BIN=$(which lsb_release)
 GLXINFO_BIN=$(which glxinfo)
 
@@ -356,6 +357,8 @@ hw_mobo_bios_date (){
   fi
 }
 
+# TUI
+# ##############################################################
 # Color definitions
 COLOR='\e[33m' # Yellow
 BAD='\e[31m' # Red
