@@ -225,6 +225,25 @@ mask2cdr (){
       echo $(( $2 + (${#x}/4) ))
     fi
  }
+ 
+ net_nic_summary () {
+  INDEX=0
+  NICs=($(ip -o link show | awk '{print $2}' | grep -v lo | sed 's/.$//' | paste -s))
+
+  for i in "${NICs[@]}"
+  do
+    NIC_details[$INDEX]+=''$i' '$(NIC_state $i)' '$(NIC_ip $i)' '$(get_gateway $i)' '$(NIC_netmask $i)' '$(mask2cdr $(NIC_netmask $i))' '$(MAC_addr $i)''
+    (( INDEX++ ))
+  done
+  printf "| %-17s| %-8s| %-15s| %-15s| %-15s| %-5s| %-5s" 'NIC' 'State' 'IP' 'Gateway' 'Netmask' 'CIDR' 'MAC'
+  printf "\n"
+  printf "| ---------------------------------------------------------------------------------------------------------\n"
+  for i in "${!NIC_details[@]}"
+  do
+    printf "| %-17s| %-8s| %-15s| %-15s| %-15s| %-5s| %-15s" ${NIC_details[i]}
+    printf "\n"
+  done
+}
 
 # Hardware & Ressources
 # ##############################################################
