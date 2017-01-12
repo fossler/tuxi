@@ -141,6 +141,14 @@ sec_check_ufw_state (){
   fi
 }
 
+sec_check_aa_service (){
+  systemctl status apparmor.service | grep -w "Active: inactive" &> /dev/zero
+  if [[ $? -eq 0 ]]; then
+    echo -e "$BAD"inactive "(dead)""$NORNAL_FONT"
+  else
+    echo -e "$GOOD"active "(exited)""$NORNAL_FONT"
+  fi
+}
 
 # Network info
 # ##############################################################
