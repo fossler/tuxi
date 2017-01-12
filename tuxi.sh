@@ -150,6 +150,15 @@ sec_check_aa_service (){
   fi
 }
 
+sec_check_arp_protection (){
+  PKG_STATE=$(dpkg-query --show --showformat='${Status}\n' arpon 2> /dev/null | grep "install ok installed")
+  if [[ $? -eq 0 ]]; then
+    echo "ARPON installed"
+  else
+    echo "not installed"
+  fi
+}
+
 # Network info
 # ##############################################################
 
