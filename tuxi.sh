@@ -132,6 +132,14 @@ net_ip_internal (){
 # System Security
 # ##############################################################
 
+sec_check_ufw_state (){
+  systemctl status ufw.service | grep -w "Active: inactive" &> /dev/zero
+  if [[ $? -eq 0 ]]; then
+    echo -e "$BAD"disabled"$NORNAL_FONT"
+  else
+    echo -e "$GOOD"enabled"$NORNAL_FONT"
+  fi
+}
 
 
 # Network info
