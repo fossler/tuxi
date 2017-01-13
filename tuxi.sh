@@ -6,10 +6,11 @@ LSB_BIN=$(which lsb_release)
 GLXINFO_BIN=$(which glxinfo)
 
 # Color definitions
-YELLOW='\e[33m' # Yellow
-RED='\e[31m' # Red
-GREEN='\e[32m' # Green
+YELLOW='\e[33m'
+RED='\e[31m'
+GREEN='\e[32m'
 DEFAULTF='\e[0m'
+tecreset=$(tput sgr0)
 
 # Systeminfo
 # ##############################################################
@@ -56,9 +57,9 @@ os_kernel_release (){
 
 sys_check_reboot (){
   if [[ -f /var/run/reboot-required ]]; then
-    printf "$BAD%-30s$NORMAL_FONT" '*** System reboot required ***'
+    printf "$RED%-30s$DEFAULTF" '*** System reboot required ***'
   else
-    printf "$GOOD%-30s$NORMAL_FONT" '*** No reboot required ***'
+    printf "$GREEN%-30s$DEFAULTF" '*** No reboot required ***'
   fi
 }
 
@@ -141,18 +142,18 @@ net_ip_internal (){
 sec_check_ufw_state (){
   systemctl status ufw.service | grep -w "Active: inactive" &> /dev/zero
   if [[ $? -eq 0 ]]; then
-    echo -e "$BAD"disabled"$NORNAL_FONT"
+    echo -e "$RED"disabled"$NORNAL_FONT"
   else
-    echo -e "$GOOD"enabled"$NORNAL_FONT"
+    echo -e "$GREEN"enabled"$NORNAL_FONT"
   fi
 }
 
 sec_check_aa_service (){
   systemctl status apparmor.service | grep -w "Active: inactive" &> /dev/zero
   if [[ $? -eq 0 ]]; then
-    echo -e "$BAD"inactive "(dead)""$NORNAL_FONT"
+    echo -e "$RED"inactive "(dead)""$NORNAL_FONT"
   else
-    echo -e "$GOOD"active "(exited)""$NORNAL_FONT"
+    echo -e "$GREEN"active "(exited)""$NORNAL_FONT"
   fi
 }
 
@@ -184,7 +185,7 @@ net_domain (){
 }
 
 net_inet_con_state (){
-  ping -c 1 google.com &> /dev/zero && echo -e "$GOOD"Connected"$NORMAL_FONT" || echo -e "$BAD"Disconnected"$NORMAL_FONT"
+  ping -c 1 google.com &> /dev/zero && echo -e "$GREEN"Connected"$DEFAULTF" || echo -e "$RED"Disconnected"$DEFAULTF"
 }
 
 net_nic_state (){
