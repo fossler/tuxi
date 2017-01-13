@@ -5,6 +5,12 @@
 LSB_BIN=$(which lsb_release)
 GLXINFO_BIN=$(which glxinfo)
 
+# Color definitions
+YELLOW='\e[33m' # Yellow
+RED='\e[31m' # Red
+GREEN='\e[32m' # Green
+DEFAULTF='\e[0m'
+
 # Systeminfo
 # ##############################################################
 
@@ -54,7 +60,7 @@ sys_check_reboot (){
   else
     printf "$GOOD%-30s$NORMAL_FONT" '*** No reboot required ***'
   fi
-}  
+}
 
 sys_desk_env (){
   printf "$XDG_CURRENT_DESKTOP"
@@ -70,7 +76,7 @@ sys_check_updates (){
     printf "$UPDATES\n"
     printf "%-72s %-40s" '' '$SEC_UPDATES'
   fi
-}  
+}
 
 # User info
 # ##############################################################
@@ -102,7 +108,7 @@ user_login_shell_ver (){
       ZSH_VER=$(zsh --version | cut -d' ' -f2)
       ;;
   esac
-  
+
 }
 user_group_membership (){
   USER_GROUPS=$(id | cut -d'=' -f4)
@@ -223,7 +229,7 @@ net_nic_netmask (){
   else
     printf "$NM_VAR"
   fi
-}  
+}
 
 net_dhcp_srv (){
   grep "DHCPACK" /var/log/syslog | tail 1 | cut -d' ' -f10
@@ -250,7 +256,7 @@ mask2cdr (){
       echo $(( $2 + (${#x}/4) ))
     fi
  }
- 
+
  net_nic_summary () {
   INDEX=0
   NICs=($(ip -o link show | awk '{print $2}' | grep -v lo | sed 's/.$//' | paste -s))
@@ -415,11 +421,7 @@ hw_mobo_bios_date (){
 
 # TUI
 # ##############################################################
-# Color definitions
-COLOR='\e[33m' # Yellow
-BAD='\e[31m' # Red
-GOOD='\e[32m' # Green
-NORMAL_FONT='\e[0m'
+
 
 printf "x============[ Systeminfo ]============================================[ $(date) ]===============\n"
 printf ""
