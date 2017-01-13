@@ -5,7 +5,7 @@
 LSB_BIN=$(which lsb_release)
 GLXINFO_BIN=$(which glxinfo)
 
-# Color definitions
+# YELLOW definitions
 YELLOW='\e[33m'
 RED='\e[31m'
 GREEN='\e[32m'
@@ -72,10 +72,10 @@ sys_check_updates (){
   if [[ $UPDATES == '0;0' ]]; then
     printf "no updates are available"
   else
-    UPDATES=$(usr/lib/update-notifier/apt-check --human-readable | sed -n '1p')
-    SEC_UPDATES=$(usr/lib/update-notifier/apt-check --human-readable | sed -n '2p')
+    UPDATES=$(/usr/lib/update-notifier/apt-check --human-readable | sed -n '1p')
+    SEC_UPDATES=$(/usr/lib/update-notifier/apt-check --human-readable | sed -n '2p')
     printf "$UPDATES\n"
-    printf "%-72s %-40s" '' '$SEC_UPDATES'
+    printf "|%-72s %-40s" '' "$SEC_UPDATES"
   fi
 }
 
@@ -142,18 +142,18 @@ net_ip_internal (){
 sec_check_ufw_state (){
   systemctl status ufw.service | grep -w "Active: inactive" &> /dev/zero
   if [[ $? -eq 0 ]]; then
-    echo -e "$RED"disabled"$NORNAL_FONT"
+    echo -e "$RED"disabled"$DEFAULTF"
   else
-    echo -e "$GREEN"enabled"$NORNAL_FONT"
+    echo -e "$GREEN"enabled"$DEFAULTF"
   fi
 }
 
 sec_check_aa_service (){
   systemctl status apparmor.service | grep -w "Active: inactive" &> /dev/zero
   if [[ $? -eq 0 ]]; then
-    echo -e "$RED"inactive "(dead)""$NORNAL_FONT"
+    echo -e "$RED"inactive "(dead)""$DEFAULTF"
   else
-    echo -e "$GREEN"active "(exited)""$NORNAL_FONT"
+    echo -e "$GREEN"active "(exited)""$DEFAULTF"
   fi
 }
 
@@ -225,7 +225,7 @@ net_nic_ip (){
 
 net_nic_netmask (){
   NM_VAR=$(ifconfig $1 2> /dev/zero | grep "Mask" | cut -d":" -f4)
-  if [[ z- $NM_VAR ]]; then
+  if [[ -z $NM_VAR ]]; then
     printf "%-3s\n" "---"
   else
     printf "$NM_VAR"
@@ -239,7 +239,7 @@ net_dhcp_srv (){
 net_dns_srv (){
   if [[ -z $DISPLAY ]]; then
     ACTIVE_NIC=$(ip route show | grep "default" | head -1 | cut -d" " -f5)
-    MY_NS=$(nmcli device show $ACTIVE_NIC | grep "IP4.DNS" | cut -d":" -f2
+    MY_NS=$(nmcli device show $ACTIVE_NIC | grep "IP4.DNS" | cut -d":" -f2)
     printf "$MY_NS"
   else
     cat /etc/resolv.conf | grep "nameserver" | sed 's/nameserver//'
@@ -424,6 +424,15 @@ hw_mobo_bios_date (){
 # ##############################################################
 
 
-printf "x============[ Systeminfo ]============================================[ $(date) ]===============\n"
-printf ""
+printf "x========[ Systeminfo ]==========================================[ $(date) ]============\n"
+printf "|\n"
+printf "| $YELLOW%-9s$DEFAULTF %-19s $YELLOW%-8s$DEFAULTF %-16s\n" "Hostname:" "$(hostn)" "Domain:" "$(net_domain)"
+printf "|\n"
+printf "| $YELLOW%-8s$DEFAULTF %-20s $YELLOW%-5s$DEFAULTF %-26s $YELLOW%-5s$DEFAULTF %-16s\n" "OS-Name:" "$(os_name)" "Type:" "$(os_type)" "Arch:" "$(os_arch)"
+printf "| $YELLOW%-8s$DEFAULTF %-20s $YELLOW%-8s$DEFAULTF %-22s $YELLOW%-5s$DEFAULTF %-16s\n" "Release:" "$(os_release)" "Codename:" "$(os_codename)" "Kernel:" "$(os_kernel_release)"
+printf "| $YELLOW%-8s$DEFAULTF %-20s\n" "Desktop Environment:" "$(sys_desk_env)"
+printf "|%-63s $YELLOW%-8s$DEFAULTF %-40s\n" '' 'Updates:' "$(sys_check_updates)"
+printf "| $YELLOW%-9s$DEFAULTF %-20s $YELLOW%-8s\n$DEFAULTF" "Uptime:" "$(uptime -p)" "$(sys_check_reboot)"
+printf "|\n"
+
 exit
