@@ -122,18 +122,14 @@ user_group_membership (){
          printf "\n|\n"
          printf "%-20s" '|'
          printf "$i  "
-         counter=0
+         COUNTER=0
 	    else
 	       printf "$i  "
       fi
-      (( counter++ ))
+      (( COUNTER++ ))
   done
   printf "\n"
   IFS=$OIFS
-}
-
-net_ip_internal (){
-  hostname -I
 }
 
 # System Security
@@ -168,6 +164,11 @@ sec_check_arp_protection (){
 
 # Network info
 # ##############################################################
+
+
+net_ip_internal (){
+  hostname -I
+}
 
 net_ip_external (){
   dig +short myip.opendns.com @resolver1.opendns.com &> /dev/zero
@@ -434,5 +435,12 @@ printf "| $YELLOW%-8s$DEFAULTF %-20s\n" "Desktop Environment:" "$(sys_desk_env)"
 printf "|%-63s $YELLOW%-8s$DEFAULTF %-40s\n" '' 'Updates:' "$(sys_check_updates)"
 printf "| $YELLOW%-9s$DEFAULTF %-20s $YELLOW%-8s\n$DEFAULTF" "Uptime:" "$(uptime -p)" "$(sys_check_reboot)"
 printf "|\n"
-
+printf "x========[ User info ]========================================================================================\n"
+printf "|\n"
+printf "| $YELLOW%-9s$DEFAULTF %-10s $YELLOW%-5s$DEFAULTF %-12s $YELLOW%-4s$DEFAULTF %-6s $YELLOW%-4s$DEFAULTF %-6s $YELLOW%-12s$DEFAULTF %-4s %-6s\n" "Username:" "$USER" "Home:" "$HOME" "UID:" "$(id -u $USER)" "GID:" "$(id -g $USER)" "Login Shell:" "$(user_login_shell)" "$(user_login_shell_ver)"
+printf "|\n"
+printf "| $YELLOW%-17s$DEFAULTF %-20s\n" "Group Membership:" "$(user_group_membership)"
+printf "|\n"
+printf "x========[ System security ]==================================================================================\n"
+printf "|\n"
 exit
