@@ -443,4 +443,9 @@ printf "| $YELLOW%-17s$DEFAULTF %-20s\n" "Group Membership:" "$(user_group_membe
 printf "|\n"
 printf "x========[ System security ]==================================================================================\n"
 printf "|\n"
+printf "| $YELLOW%-11s$DEFAULTF %-20s $YELLOW%-16s$DEFAULTF %-26s $YELLOW%-15s$DEFAULTF %-16s \n" "ufw-Status:" "$(sec_check_ufw_state)" "AppArmor-Status:" "$(sec_check_aa_service)" "ARP-Protection:" "$(sec_check_arp_protection)"
+printf "|\n"
+printf "x========[ Network info ]=====================================================================================\n"
+printf "|\n"
+
 exit
