@@ -234,14 +234,14 @@ net_nic_netmask (){
 }
 
 net_dhcp_srv (){
-  grep "DHCPACK" /var/log/syslog | tail 1 | cut -d' ' -f10
+  grep "DHCPACK" /var/log/syslog | tail -1 | cut -d' ' -f10
 }
 
 net_dns_srv (){
-  if [[ -z $DISPLAY ]]; then
+  if [[ ! -z $DISPLAY ]]; then
     ACTIVE_NIC=$(ip route show | grep "default" | head -1 | cut -d" " -f5)
     MY_NS=$(nmcli device show $ACTIVE_NIC | grep "IP4.DNS" | cut -d":" -f2)
-    printf "$MY_NS"
+    printf $MY_NS
   else
     cat /etc/resolv.conf | grep "nameserver" | sed 's/nameserver//'
   fi
@@ -265,7 +265,7 @@ mask2cdr (){
 
   for i in "${NICs[@]}"
   do
-    NIC_details[$INDEX]+=''$i' '$(NIC_state $i)' '$(NIC_ip $i)' '$(get_gateway $i)' '$(NIC_netmask $i)' '$(mask2cdr $(NIC_netmask $i))' '$(MAC_addr $i)''
+    NIC_details[$INDEX]+=''$i' '$(net_nic_state $i)' '$(net_nic_ip $i)' '$(net_get_gateway $i)' '$(net_nic_netmask $i)' '$(mask2cdr $(net_nic_netmask $i))' '$(net_mac_addr $i)''
     (( INDEX++ ))
   done
   printf "| %-17s| %-8s| %-15s| %-15s| %-15s| %-5s| %-5s" 'NIC' 'State' 'IP' 'Gateway' 'Netmask' 'CIDR' 'MAC'
@@ -424,7 +424,6 @@ hw_mobo_bios_date (){
 # TUI
 # ##############################################################
 
-
 printf "x========[ Systeminfo ]==========================================[ $(date) ]============\n"
 printf "|\n"
 printf "| $YELLOW%-9s$DEFAULTF %-19s $YELLOW%-8s$DEFAULTF %-16s\n" "Hostname:" "$(hostn)" "Domain:" "$(net_domain)"
@@ -447,5 +446,10 @@ printf "| $YELLOW%-11s$DEFAULTF %-20s $YELLOW%-16s$DEFAULTF %-26s $YELLOW%-15s$D
 printf "|\n"
 printf "x========[ Network info ]=====================================================================================\n"
 printf "|\n"
-
+printf "| $YELLOW%-7s$DEFAULTF %-15s $YELLOW%-9s$DEFAULTF %-20s $YELLOW%-12s$DEFAULTF %-15s $YELLOW%-12s$DEFAULTF %-12s\n" "WAN-IP:" "$(net_ip_external)" "WAN-State:" "$(net_inet_con_state)" "DHCP Server:" "$(net_dhcp_srv)" "DNS Servers:" "$(net_dns_srv)"
+printf "|\n"
+printf "$(net_nic_summary)\n"
+printf "|\n"
+printf "x========[ Hardware & Ressources ]============================================================================\n"
+printf "|\n"
 exit
