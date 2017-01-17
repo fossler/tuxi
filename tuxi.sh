@@ -85,10 +85,11 @@ sys_check_updates (){
 
 user_login_shell (){
   USER_LOGIN_SHELL=${SHELL##*/}
-  printf "$USER_LOGIN_SHELL"
+  printf "$USER_LOGIN_SHELL\n"
 }
 
 user_login_shell_ver (){
+	user_login_shell &> /dev/zero
   case "$USER_LOGIN_SHELL" in
     bash)
       BASH_VER=$(bash --version | grep "bash.*version" | cut -d' ' -f4 | cut -d'(' -f1)
