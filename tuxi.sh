@@ -173,7 +173,7 @@ net_ip_internal (){
 }
 
 net_ip_external (){
-  dig +short myip.opendns.com @resolver1.opendns.com &> /dev/zero
+  dig +short myip.opendns.com @resolver1.opendns.com 2> /dev/zero
   if [[ $? -ne 0 ]]; then
     printf "Could not resolve\n"
   fi
