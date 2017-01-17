@@ -1,16 +1,17 @@
 #!/usr/bin/env bash
+clear
 
 # general vars
 # ##############################################################
 LSB_BIN=$(which lsb_release)
 GLXINFO_BIN=$(which glxinfo)
+LSHW_BIN=$(which lshw)
 
 # YELLOW definitions
 YELLOW='\e[33m'
 RED='\e[31m'
 GREEN='\e[32m'
 DEFAULTF='\e[0m'
-tecreset=$(tput sgr0)
 
 # Systeminfo
 # ##############################################################
@@ -326,11 +327,10 @@ hw_system_version (){
 }
 
 hw_gpu_card (){
-  if [[ -z $lshw ]];then
+  if [[ -z $LSHW_BIN ]];then
     printf " not available\n"
   else
     lshw -C display 2> /dev/zero | grep product | cut -d":" -f2 | sed 's/[[:space:]]//'
-    # lspci -vnn | grep VGA -A 12
   fi
 }
 
@@ -452,4 +452,20 @@ printf "$(net_nic_summary)\n"
 printf "|\n"
 printf "x========[ Hardware & Ressources ]============================================================================\n"
 printf "|\n"
+printf "| $YELLOW%-14s$DEFAULTF %-25s $YELLOW%-6s$DEFAULTF %-27s $YELLOW%-5s$DEFAULTF %-16s\n" "System-Vendor:" "$(hw_system_vendor)" "Model:" "$(hw_system_model)" "Version:" "$(hw_system_version)"
+printf "| $YELLOW%-13s$DEFAULTF %-26s $YELLOW%-6s$DEFAULTF %-27s $YELLOW%-5s$DEFAULTF %-16s\n" "Board-Vendor:" "$(hw_mobo_vendor)" "Model:" "$(hw_mobo_name)" "Version:" "$(hw_mobo_version)"
+printf "| $YELLOW%-12s$DEFAULTF %-27s $YELLOW%-8s$DEFAULTF %-25s $YELLOW%-5s$DEFAULTF %-16s\n" "BIOS-Vendor:" "$(hw_mobo_bios_vendor)" "Version:" "$(hw_mobo_bios_version)" "Date:" "$(hw_mobo_bios_date)"
+printf "|\n"
+printf "| $YELLOW%-4s$DEFAULTF %-70s $YELLOW%-6s$DEFAULTF %-10s $YELLOW%-3s$DEFAULTF %-4s\n" "CPU:" "$(hw_cpu)" "Cores:" "$(hw_cpu_cores)" "HT:" "$(hw_cpu_HT)"
+printf "| $YELLOW%-4s$DEFAULTF %-70s $YELLOW%-6s$DEFAULTF %-22s\n" "GPU:" "$(hw_gpu_card)" "Memory:" "$(hw_gpu_memory_size)"
+printf "| $YELLOW%-13s$DEFAULTF %-61s $YELLOW%-6s$DEFAULTF %-22s\n" "GLX-Renderer:" "$(hw_gpu_renderer)" "GLX-Version:" "$(hw_gpu_opengl_version)"
+printf "|\n"
+printf "| $YELLOW%-7s\n$DEFAULTF" "[ RAM ]"
+printf "$(free -h | grep -v "Swap" | xargs -L1 echo "|" | sed 's/Mem: //' | column -t)\n"
+printf "|\n"
+printf "| $YELLOW%-11s\n$DEFAULTF" "[ Storage ]"
+echo -e "$(df -h | sed '2,${/^\//!d}' | xargs -L1 echo "|" | column -s" " -t)"
+printf "|\n"
+printf "x========[ https://github.com/fossler/tuxi ]==================================================================\n"
+exit
 exit
