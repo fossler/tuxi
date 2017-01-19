@@ -240,8 +240,8 @@ net_dhcp_srv (){
 }
 
 net_dns_srv (){
-  if [[ ! -z $DISPLAY ]]; then
-    ACTIVE_NIC=$(ip route show | grep "default" | head -1 | cut -d" " -f5)
+  if [[ $XDG_SESSION_TYPE == x11 || $XDG_SESSION_TYPE == mir ]]; then
+    ACTIVE_NIC=$(ip route show | grep "default via" | head -1 | cut -d" " -f5)
     MY_NS=$(nmcli device show $ACTIVE_NIC | grep "IP4.DNS" | cut -d":" -f2)
     printf $MY_NS
   else
