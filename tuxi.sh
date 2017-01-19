@@ -3,6 +3,20 @@ clear
 
 # general vars
 # ##############################################################
+check_root (){
+  if [[ $EUID -ne 0 ]]; then
+		printf "******************************************\n"
+	  printf "* [ ERROR ]\n"
+	  printf "*\n"
+	  printf "* This script must be run as root or sudo\n"
+	  printf "*\n"
+	  printf "******************************************\n"
+    exit 1
+  fi
+}
+
+# general vars
+# ##############################################################
 LSB_BIN=$(which lsb_release)
 GLXINFO_BIN=$(which glxinfo)
 LSHW_BIN=$(which lshw)
