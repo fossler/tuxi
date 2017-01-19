@@ -17,6 +17,7 @@ check_root (){
 
 # general vars
 # ##############################################################
+RUID=(env | grep "SUDO_USER" | cut -d"=" -f1)
 LSB_BIN=$(which lsb_release)
 GLXINFO_BIN=$(which glxinfo)
 LSHW_BIN=$(which lshw)
