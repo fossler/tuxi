@@ -5,12 +5,12 @@ clear
 # ##############################################################
 check_root (){
   if [[ $EUID -ne 0 ]]; then
+  	printf "******************************************\n"
+		printf "* [ ERROR ]\n"
+		printf "*\n"
+		printf "* This script must be run as root or sudo\n"
+		printf "*\n"
 		printf "******************************************\n"
-	  printf "* [ ERROR ]\n"
-	  printf "*\n"
-	  printf "* This script must be run as root or sudo\n"
-	  printf "*\n"
-	  printf "******************************************\n"
 		exit 1
   fi
 }
