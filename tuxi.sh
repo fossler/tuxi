@@ -104,7 +104,7 @@ user_login_shell (){
 }
 
 user_login_shell_ver (){
-	user_login_shell &> /dev/zero
+	user_login_shell &> /dev/null
   case "$USER_LOGIN_SHELL" in
     bash)
       BASH_VER=$(bash --version | grep "bash.*version" | cut -d' ' -f4 | cut -d'(' -f1)
@@ -153,7 +153,7 @@ user_group_membership (){
 # ##############################################################
 
 sec_check_ufw_state (){
-  systemctl status ufw.service | grep -w "Active: inactive" &> /dev/zero
+  systemctl status ufw.service | grep -w "Active: inactive" &> /dev/null
   if [[ $? -eq 0 ]]; then
     echo -e "$RED"disabled"$DEFAULTF"
   else
@@ -162,7 +162,7 @@ sec_check_ufw_state (){
 }
 
 sec_check_aa_service (){
-  systemctl status apparmor.service | grep -w "Active: inactive" &> /dev/zero
+  systemctl status apparmor.service | grep -w "Active: inactive" &> /dev/null
   if [[ $? -eq 0 ]]; then
     echo -e "$RED"inactive "(dead)""$DEFAULTF"
   else
@@ -188,7 +188,7 @@ net_ip_internal (){
 }
 
 net_ip_external (){
-  dig +short myip.opendns.com @resolver1.opendns.com 2> /dev/zero
+  dig +short myip.opendns.com @resolver1.opendns.com 2> /dev/null
   if [[ $? -ne 0 ]]; then
     printf "Could not resolve\n"
   fi
@@ -203,11 +203,11 @@ net_domain (){
 }
 
 net_inet_con_state (){
-  ping -c 1 google.com &> /dev/zero && echo -e "$GREEN"Connected"$DEFAULTF" || echo -e "$RED"Disconnected"$DEFAULTF"
+  ping -c 1 google.com &> /dev/null && echo -e "$GREEN"Connected"$DEFAULTF" || echo -e "$RED"Disconnected"$DEFAULTF"
 }
 
 net_nic_state (){
-  ip -o link show $1 2> /dev/zero | awk '{print $9}'
+  ip -o link show $1 2> /dev/null | awk '{print $9}'
 }
 
 net_get_active_nic (){
@@ -224,7 +224,7 @@ net_get_gateway (){
 }
 
 net_mac_addr (){
-  VAR_MAC=$(ip -o link show $1 2> /dev/zero | awk '{print $17}')
+  VAR_MAC=$(ip -o link show $1 2> /dev/null | awk '{print $17}')
   if [[ -z $VAR_MAC ]]; then
     printf "%-3s" "---"
   else
@@ -233,7 +233,7 @@ net_mac_addr (){
 }
 
 net_nic_ip (){
-  NIC_VAR=$(ifconfig $1 2> /dev/zero | grep 'inet addr:' | cut -d: -f2 | awk '{print $1}')
+  NIC_VAR=$(ifconfig $1 2> /dev/null | grep 'inet addr:' | cut -d: -f2 | awk '{print $1}')
   if [[ -z $NIC_VAR ]]; then
     printf "%-3s\n" "---"
   else
@@ -242,7 +242,7 @@ net_nic_ip (){
 }
 
 net_nic_netmask (){
-  NM_VAR=$(ifconfig $1 2> /dev/zero | grep "Mask" | cut -d":" -f4)
+  NM_VAR=$(ifconfig $1 2> /dev/null | grep "Mask" | cut -d":" -f4)
   if [[ -z $NM_VAR ]]; then
     printf "%-3s\n" "---"
   else
@@ -307,7 +307,7 @@ hw_cpu_cores (){
 }
 
 hw_cpu_HT (){
-  grep flags /proc/cpuinfo | grep -wo ht &> /dev/zero
+  grep flags /proc/cpuinfo | grep -wo ht &> /dev/null
   if [[ $? -eq 0 ]]; then
     printf "Yes\n"
   else
@@ -346,40 +346,40 @@ hw_gpu_card (){
   if [[ -z $LSHW_BIN ]];then
     printf " not available\n"
   else
-    lshw -C display 2> /dev/zero | grep product | cut -d":" -f2 | sed 's/[[:space:]]//'
+    lshw -C display 2> /dev/null | grep product | cut -d":" -f2 | sed 's/[[:space:]]//'
   fi
 }
 
 hw_gpu_renderer (){
-  glxinfo &> /dev/zero
+  glxinfo &> /dev/null
   if [[ $? -ne 0 ]]; then
     printf " not available\n"
   elif [[ -z $GLXINFO_BIN ]]; then
     printf " not available\n"
   else
-    glxinfo 2> /dev/zero | grep "OpenGL renderer string" | cut -d':' -f2 | sed 's/[[:space:]]//'
+    glxinfo 2> /dev/null | grep "OpenGL renderer string" | cut -d':' -f2 | sed 's/[[:space:]]//'
   fi
 }
 
 hw_gpu_memory_size (){
-  glxinfo &> /dev/zero
+  glxinfo &> /dev/null
   if [[ $? -ne 0 ]]; then
     printf " not available\n"
   elif [[ -z $GLXINFO_BIN ]]; then
     printf " not available\n"
   else
-    glxinfo 2> /dev/zero | grep "Video memory:" | cut -d: -f2
+    glxinfo 2> /dev/null | grep "Video memory:" | cut -d: -f2
   fi
 }
 
 hw_gpu_opengl_version (){
-  glxinfo &> /dev/zero
+  glxinfo &> /dev/null
   if [[ $? -ne 0 ]]; then
     printf " not available\n"
   elif [[ -z $GLXINFO_BIN ]]; then
     printf " not available\n"
   else
-    glxinfo 2> /dev/zero | grep "OpenGL version string:" | cut -d: -f2
+    glxinfo 2> /dev/null | grep "OpenGL version string:" | cut -d: -f2
   fi
 }
 
