@@ -252,7 +252,7 @@ net_nic_netmask (){
 }
 
 net_dhcp_srv (){
-  grep "DHCPACK" /var/log/syslog | tail -1 | cut -d' ' -f10
+  grep "DHCPACK" /var/log/syslog | tail -1 | sed -n -e 's/^.*from //p'
 }
 
 net_dns_srv (){
