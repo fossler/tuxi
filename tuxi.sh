@@ -189,7 +189,8 @@ net_ip_internal (){
 }
 
 net_ip_external (){
-  dig +short myip.opendns.com @resolver1.opendns.com 2> /dev/null
+  # dig +short myip.opendns.com @resolver1.opendns.com 2> /dev/null
+	dig TXT +short o-o.myaddr.l.google.com @ns1.google.com | awk -F'"' '{ print $2}'
   if [[ $? -ne 0 ]]; then
     printf "Could not resolve\n"
   fi
