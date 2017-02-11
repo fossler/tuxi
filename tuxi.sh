@@ -476,7 +476,7 @@ printf "| $YELLOW%-12s$DEFAULTF %-27s $YELLOW%-8s$DEFAULTF %-25s $YELLOW%-5s$DEF
 printf "|\n"
 printf "| $YELLOW%-4s$DEFAULTF %-70s $YELLOW%-6s$DEFAULTF %-10s $YELLOW%-3s$DEFAULTF %-4s\n" "CPU(s):" "$(hw_cpu)" "Cores:" "$(hw_cpu_cores)" "HT:" "$(hw_cpu_HT)"
 printf "| $YELLOW%-4s$DEFAULTF %-70s $YELLOW%-6s$DEFAULTF %-22s\n" "GPU(s):" "$(hw_gpu_card)" "Memory:" "$(hw_gpu_memory_size)"
-printf "| $YELLOW%-13s$DEFAULTF %-61s $YELLOW%-6s$DEFAULTF %-22s\n" "GLX-Renderer:" "$(hw_gpu_renderer)" "GLX-Version:" "$(hw_gpu_opengl_version)"
+printf "| $YELLOW%-13s$DEFAULTF %-64s $YELLOW%-6s$DEFAULTF %-22s\n" "GLX-Renderer:" "$(hw_gpu_renderer)" "GLX-Version:" "$(hw_gpu_opengl_version)"
 printf "|\n"
 printf "| $YELLOW%-7s\n$DEFAULTF" "[ RAM ]"
 printf "$(free -h | grep -v "Swap" | xargs -L1 echo "|" | sed 's/Mem: //' | column -t)\n"
