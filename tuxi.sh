@@ -1,20 +1,24 @@
 #!/usr/bin/env bash
 clear
+#  tuxi - A Bash script to show system info
+#
+#  Copyright (c) 2015-2017 Mirzet Kadic <mirzet.kadic@gmail.com>
+#
+#  SOURCE: https://github.com/fossler/tuxi
+#
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or
+#  (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# general vars
-# ##############################################################
-
-#check_root (){
-#  if [[ $EUID -ne 0 ]]; then
-#  	printf "******************************************\n"
-#		printf "* [ ERROR ]\n"
-#		printf "*\n"
-#		printf "* This script must be run as root or sudo\n"
-#		printf "*\n"
-#		printf "******************************************\n"
-#		exit 1
-#  fi
-#}
 
 # general vars
 # ##############################################################
@@ -345,11 +349,27 @@ hw_system_version (){
 }
 
 hw_gpu_card (){
-  if [[ -z $LSHW_BIN ]];then
-    printf " not available\n"
-  else
-    lshw -C display 2> /dev/null | grep product | cut -d":" -f2 | sed 's/[[:space:]]//'
-  fi
+if [[ -z $LSHW_BIN ]];then
+ printf " not available\n"
+else
+	OIFS=$IFS
+	IFS=$'\n'
+	GPUs=( $(lshw -C display 2> /dev/null | grep product | cut -d":" -f2 | sed 's/[[:space:]]//'))
+	COUNTER=0
+	declare -r SPLITTER=1
+	for i in "${GPUs[@]}"; do
+		if [[ $COUNTER -eq $SPLITTER ]]; then
+			 #printf "\n|"
+			 printf "\n%-10s" '|'
+			 printf "$i  "
+			 COUNTER=0
+		else
+			 printf "$i  "
+		fi
+		(( COUNTER++ ))
+	done
+fi
+IFS=$OIFS
 }
 
 hw_gpu_renderer (){
@@ -474,9 +494,9 @@ printf "| $YELLOW%-14s$DEFAULTF %-25s $YELLOW%-6s$DEFAULTF %-27s $YELLOW%-5s$DEF
 printf "| $YELLOW%-13s$DEFAULTF %-26s $YELLOW%-6s$DEFAULTF %-27s $YELLOW%-5s$DEFAULTF %-16s\n" "Board-Vendor:" "$(hw_mobo_vendor)" "Model:" "$(hw_mobo_name)" "Version:" "$(hw_mobo_version)"
 printf "| $YELLOW%-12s$DEFAULTF %-27s $YELLOW%-8s$DEFAULTF %-25s $YELLOW%-5s$DEFAULTF %-16s\n" "BIOS-Vendor:" "$(hw_mobo_bios_vendor)" "Version:" "$(hw_mobo_bios_version)" "Date:" "$(hw_mobo_bios_date)"
 printf "|\n"
-printf "| $YELLOW%-4s$DEFAULTF %-70s $YELLOW%-6s$DEFAULTF %-10s $YELLOW%-3s$DEFAULTF %-4s\n" "CPU(s):" "$(hw_cpu)" "Cores:" "$(hw_cpu_cores)" "HT:" "$(hw_cpu_HT)"
-printf "| $YELLOW%-4s$DEFAULTF %-70s $YELLOW%-6s$DEFAULTF %-22s\n" "GPU(s):" "$(hw_gpu_card)" "Memory:" "$(hw_gpu_memory_size)"
-printf "| $YELLOW%-13s$DEFAULTF %-64s $YELLOW%-12s$DEFAULTF %-22s\n" "GLX-Renderer:" "$(hw_gpu_renderer)" "GLX-Version:" "$(hw_gpu_opengl_version)"
+printf "| $YELLOW%-7s$DEFAULTF %-71s $YELLOW%-6s$DEFAULTF %-10s $YELLOW%-3s$DEFAULTF %-4s\n" "CPU(s):" "$(hw_cpu)" "Cores:" "$(hw_cpu_cores)" "HT:" "$(hw_cpu_HT)"
+printf "| $YELLOW%-7s$DEFAULTF %-71s $YELLOW%-6s$DEFAULTF %-22s\n" "GPU(s):" "$(hw_gpu_card)" "Memory:" "$(hw_gpu_memory_size)"
+printf "| $YELLOW%-13s$DEFAULTF %-65s $YELLOW%-12s$DEFAULTF %-22s\n" "GLX-Renderer:" "$(hw_gpu_renderer)" "GLX-Version:" "$(hw_gpu_opengl_version)"
 printf "|\n"
 printf "| $YELLOW%-7s\n$DEFAULTF" "[ RAM ]"
 printf "$(free -h | grep -v "Swap" | xargs -L1 echo "|" | sed 's/Mem: //' | column -t)\n"
