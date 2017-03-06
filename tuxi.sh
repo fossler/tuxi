@@ -506,4 +506,3 @@ echo -e "$(df -h | sed '2,${/^\//!d}' | xargs -L1 echo "|" | column -s" " -t)"
 printf "|\n"
 printf "x========[ https://github.com/fossler/tuxi ]==================================================================\n"
 exit
-exit
