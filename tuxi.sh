@@ -502,7 +502,7 @@ printf "| $YELLOW%-7s\n$DEFAULTF" "[ RAM ]"
 printf "$(free -h | grep -v "Swap" | xargs -L1 echo "|" | sed 's/Mem: //' | column -t)\n"
 printf "|\n"
 printf "| $YELLOW%-11s\n$DEFAULTF" "[ Storage ]"
-echo -e "$(df -h | sed '2,${/^\//!d}' | xargs -L1 echo "|" | column -s" " -t)"
+echo -e "$(df -h | sed '2,${/^\//!d}' | grep -v loop[0-9] | xargs -L1 echo "|" | column -s" " -t)"
 printf "|\n"
 printf "x========[ https://github.com/fossler/tuxi ]==================================================================\n"
 exit
