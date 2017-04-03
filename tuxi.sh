@@ -27,7 +27,7 @@ LSB_BIN=$(which lsb_release)
 GLXINFO_BIN=$(which glxinfo)
 LSHW_BIN=$(which lshw)
 
-# YELLOW definitions
+# COLOR definitions
 YELLOW='\e[33m'
 RED='\e[31m'
 GREEN='\e[32m'
