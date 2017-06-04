@@ -239,7 +239,7 @@ net_mac_addr (){
 }
 
 net_nic_ip (){
-  NIC_VAR=$(ifconfig $1 2> /dev/null | grep 'inet addr:' | cut -d: -f2 | awk '{print $1}')
+	NIC_VAR=$(ip -o -f inet addr show $1 2> /dev/null | grep -Po 'inet \K[\d.]+')
   if [[ -z $NIC_VAR ]]; then
     printf "%-3s\n" "---"
   else
