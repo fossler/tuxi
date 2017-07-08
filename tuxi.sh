@@ -1,10 +1,9 @@
 #!/usr/bin/env bash
 clear
-#  tuxi - A Bash script to show system info
-#
-#  Copyright (c) 2015-2017 Mirzet Kadic <mirzet.kadic@gmail.com>
-#
+#  tuxi - A shellscript that collects system infos
 #  SOURCE: https://github.com/fossler/tuxi
+#
+#  Author: Mirzet Kadic | https://github.com/fossler | https://plus.google.com/+MirzetKadic
 #
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
