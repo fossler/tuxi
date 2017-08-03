@@ -145,7 +145,7 @@ user_group_membership (){
          printf "$i  "
          COUNTER=0
 	    else
-	       printf "$i  "
+	       printf "%-s  " "$i"
       fi
       (( COUNTER++ ))
   done
