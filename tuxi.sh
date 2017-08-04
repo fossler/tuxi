@@ -483,7 +483,7 @@ printf "| $YELLOW%-11s$DEFAULTF %-20s $YELLOW%-16s$DEFAULTF %-26s $YELLOW%-15s$D
 printf "|\n"
 printf "x========[ Network info ]=====================================================================================\n"
 printf "|\n"
-printf "| $YELLOW%-7s$DEFAULTF %-15s $YELLOW%-9s$DEFAULTF %-20s $YELLOW%-12s$DEFAULTF %-15s $YELLOW%-12s$DEFAULTF %-12s\n" "WAN-IP:" "$(net_ip_external)" "WAN-State:" "$(net_inet_con_state)" "DHCP Server:" "$(net_dhcp_srv)" "DNS Servers:" "$(net_dns_srv)"
+printf "| $YELLOW%-7s$DEFAULTF %-15s $YELLOW%-9s$DEFAULTF %-20s $YELLOW%-12s$DEFAULTF %-15s $YELLOW%-12s$DEFAULTF %-40s\n" "WAN-IP:" "$(net_ip_external)" "WAN-State:" "$(net_inet_con_state)" "DHCP Server:" "$(net_dhcp_srv)" "DNS Servers:" "$(net_dns_srv)"
 printf "|\n"
 printf "$(net_nic_summary)\n"
 printf "|\n"
