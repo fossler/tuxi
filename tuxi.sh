@@ -175,12 +175,17 @@ fi
 }
 
 sec_check_aa_service (){
+systemctl  --type service --all | grep "apparmor.service"
+if [[ $? -ne 0]]; then
+  echo "Service not found"
+else
   systemctl status apparmor.service | grep -w "Active: inactive" &> /dev/null
   if [[ $? -eq 0 ]]; then
     echo -e "$RED"inactive "(dead)""$DEFAULTF"
   else
     echo -e "$GREEN"active "(exited)""$DEFAULTF"
   fi
+fi
 }
 
 sec_check_arp_protection (){
