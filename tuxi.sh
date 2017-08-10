@@ -162,7 +162,7 @@ user_group_membership (){
 
 sec_check_ufw_state (){
 systemctl  --type service --all | grep "ufw.service"
-if [[ $? ]]; then
+if [[ $? -ne 0 ]]; then
   echo "Service not found"
 else
   systemctl status ufw.service | grep -w "Active: inactive" &> /dev/null
@@ -176,7 +176,7 @@ fi
 
 sec_check_aa_service (){
 systemctl  --type service --all | grep "apparmor.service"
-if [[ $? -ne 0]]; then
+if [[ $? -ne 0 ]]; then
   echo "Service not found"
 else
   systemctl status apparmor.service | grep -w "Active: inactive" &> /dev/null
