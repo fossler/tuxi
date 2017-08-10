@@ -161,12 +161,17 @@ user_group_membership (){
 # ##############################################################
 
 sec_check_ufw_state (){
+systemctl  --type service --all | grep "ufw.service"
+if [[ $? ]]; then
+  echo "Service not found"
+else
   systemctl status ufw.service | grep -w "Active: inactive" &> /dev/null
   if [[ $? -eq 0 ]]; then
     echo -e "$RED"disabled"$DEFAULTF"
   else
     echo -e "$GREEN"enabled"$DEFAULTF"
   fi
+fi
 }
 
 sec_check_aa_service (){
