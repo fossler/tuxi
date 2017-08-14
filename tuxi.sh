@@ -108,7 +108,7 @@ sys_check_updates (){
 
 user_login_shell (){
   USER_LOGIN_SHELL=${SHELL##*/}
-  printf "$USER_LOGIN_SHELL\n"
+  printf "%-s\n" "$USER_LOGIN_SHELL"
 }
 
 user_login_shell_ver (){
