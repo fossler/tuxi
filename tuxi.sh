@@ -161,7 +161,7 @@ user_group_membership (){
 # ##############################################################
 
 sec_check_ufw_state (){
-systemctl  --type service --all | grep -w "ufw.service" 1> /dev/null
+systemctl --type service --all | grep -w "ufw.service" 1> /dev/null
 if [[ $? -ne 0 ]]; then
   echo "Service not found"
 else
@@ -175,7 +175,7 @@ fi
 }
 
 sec_check_aa_service (){
-systemctl  --type service --all | grep -w "apparmor.service" 1> /dev/null
+systemctl --type service --all | grep -w "apparmor.service" 1> /dev/null
 if [[ $? -ne 0 ]]; then
   echo "Service not found"
 else
@@ -278,12 +278,12 @@ net_dns_srv (){
     ACTIVE_NIC=$(ip route show | grep "default via" | head -1 | cut -d" " -f5)
     MY_NS=($(nmcli device show $ACTIVE_NIC | grep "IP4.DNS" | cut -d":" -f2))
     for i in "${MY_NS[@]}"; do
-      printf "%-s | " "$i"
+      printf "%-s " "$i"
     done
   else
     MY_NS=($(cat /etc/resolv.conf | grep "nameserver" | sed 's/nameserver//'))
     for i in "${MY_NS[@]}"; do
-      printf "%-s | " "$i"
+      printf "%-s " "$i"
     done
   fi
 }
@@ -480,7 +480,7 @@ hw_mobo_bios_date (){
 # TUI
 # ##############################################################
 
-printf "x========[ Systeminfo ]==========================================[ $(date) ]=====================================\n"
+printf "x========[ Systeminfo ]==========================================[ $(date) ]================================\n"
 printf "|\n"
 printf "| $YELLOW%-9s$DEFAULTF %-19s $YELLOW%-8s$DEFAULTF %-16s\n" "Hostname:" "$(hostn)" "Domain:" "$(net_domain)"
 printf "|\n"
@@ -490,23 +490,23 @@ printf "| $YELLOW%-8s$DEFAULTF %-20s\n" "Desktop Environment:" "$(sys_desk_env)"
 printf "|%-63s $YELLOW%-8s$DEFAULTF %-40s\n" '' 'Updates:' "$(sys_check_updates)"
 printf "| $YELLOW%-9s$DEFAULTF %-20s $YELLOW%-8s\n$DEFAULTF" "Uptime:" "$(uptime -p)" "$(sys_check_reboot)"
 printf "|\n"
-printf "x========[ User info ]=================================================================================================================\n"
+printf "x========[ User info ]============================================================================================================\n"
 printf "|\n"
 printf "| $YELLOW%-9s$DEFAULTF %-10s $YELLOW%-5s$DEFAULTF %-12s $YELLOW%-4s$DEFAULTF %-6s $YELLOW%-4s$DEFAULTF %-6s $YELLOW%-12s$DEFAULTF %-4s %-6s\n" "Username:" "$USER" "Home:" "$HOME" "UID:" "$(id -u $USER)" "GID:" "$(id -g $USER)" "Login Shell:" "$(user_login_shell)" "$(user_login_shell_ver)"
 printf "|\n"
 printf "| $YELLOW%-17s$DEFAULTF %-20s\n" "Group Membership:" "$(user_group_membership)"
 printf "|\n"
-printf "x========[ System security ]===========================================================================================================\n"
+printf "x========[ System security ]======================================================================================================\n"
 printf "|\n"
 printf "| $YELLOW%-11s$DEFAULTF %-20s $YELLOW%-16s$DEFAULTF %-26s $YELLOW%-15s$DEFAULTF %-16s \n" "ufw-Status:" "$(sec_check_ufw_state)" "AppArmor-Status:" "$(sec_check_aa_service)" "ARP-Protection:" "$(sec_check_arp_protection)"
 printf "|\n"
-printf "x========[ Network info ]==============================================================================================================\n"
+printf "x========[ Network info ]=========================================================================================================\n"
 printf "|\n"
 printf "| $YELLOW%-7s$DEFAULTF %-15s $YELLOW%-9s$DEFAULTF %-20s $YELLOW%-12s$DEFAULTF %-15s $YELLOW%-12s$DEFAULTF %-40s\n" "WAN-IP:" "$(net_ip_external)" "WAN-State:" "$(net_inet_con_state)" "DHCP Server:" "$(net_dhcp_srv)" "DNS Servers:" "$(net_dns_srv)"
 printf "|\n"
 printf "$(net_nic_summary)\n"
 printf "|\n"
-printf "x========[ Hardware & Ressources ]=====================================================================================================\n"
+printf "x========[ Hardware & Ressources ]================================================================================================\n"
 printf "|\n"
 printf "| $YELLOW%-14s$DEFAULTF %-27s $YELLOW%-6s$DEFAULTF %-29s $YELLOW%-5s$DEFAULTF %-16s\n" "System-Vendor:" "$(hw_system_vendor)" "Model:" "$(hw_system_model)" "Version:" "$(hw_system_version)"
 printf "| $YELLOW%-13s$DEFAULTF %-28s $YELLOW%-6s$DEFAULTF %-29s $YELLOW%-5s$DEFAULTF %-16s\n" "Board-Vendor:" "$(hw_mobo_vendor)" "Model:" "$(hw_mobo_name)" "Version:" "$(hw_mobo_version)"
