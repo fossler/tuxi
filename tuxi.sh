@@ -207,9 +207,9 @@ net_ip_internal (){
 
 net_ip_external (){
   # dig +short myip.opendns.com @resolver1.opendns.com 2> /dev/null
-	dig TXT +short o-o.myaddr.l.google.com @ns1.google.com | awk -F'"' '{ print $2}'
-  if [[ $? -ne 0 ]]; then
-    printf "Could not resolve\n"
+	dig TXT +short o-o.myaddr.l.google.com @ns1.google.com 2> /dev/null | awk -F'"' '{ print $2}'
+  if [[ "${PIPESTATUS[0]}" -ne 0 ]]; then
+    printf "$RED%-s$DEFAULTF" "Could not resolve"
   fi
 }
 
@@ -265,7 +265,7 @@ net_nic_netmask (){
   if [[ -z $NM_VAR ]]; then
     printf "%-3s\n" "---"
   else
-    printf "$NM_VAR"
+    printf "%-s" "$NM_VAR"
   fi
 }
 
@@ -277,7 +277,7 @@ net_dns_srv (){
   if [[ $XDG_SESSION_TYPE == x11 ]] || [[ $XDG_SESSION_TYPE == mir ]]; then
     ACTIVE_NIC=$(ip route show | grep "default via" | head -1 | cut -d" " -f5)
     MY_NS=$(nmcli device show $ACTIVE_NIC | grep "IP4.DNS" | cut -d":" -f2)
-    printf $MY_NS
+    printf "%-s" "$MY_NS"
   else
     cat /etc/resolv.conf | grep "nameserver" | sed 's/nameserver//'
   fi
