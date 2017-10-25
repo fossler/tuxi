@@ -88,7 +88,7 @@ sys_desk_env (){
 }
 
 sys_check_updates (){
-  UPDATES=$(usr/lib/update-notifier/apt-check 2>&1)
+  UPDATES=$(/usr/lib/update-notifier/apt-check 2>&1)
   if [[ -f /usr/lib/update-notifier/apt-check ]]; then
     if [[ $UPDATES == '0;0' ]]; then
       printf "no updates are available"
