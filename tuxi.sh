@@ -90,13 +90,13 @@ sys_desk_env (){
 sys_check_updates (){
   UPDATES=$(/usr/lib/update-notifier/apt-check 2>&1)
   if [[ -f /usr/lib/update-notifier/apt-check ]]; then
-    if [[ $UPDATES == '0;0' ]]; then
+    if [[ ${UPDATES} == '0;0' ]]; then
       printf "no updates are available"
     else
       UPDATES=$(/usr/lib/update-notifier/apt-check --human-readable | sed -n '1p')
       SEC_UPDATES=$(/usr/lib/update-notifier/apt-check --human-readable | sed -n '2p')
-      printf "$UPDATES\n"
-      printf "|%-72s %-40s" '' "$SEC_UPDATES"
+      printf "${UPDATES}\n"
+      printf "|%-72s %-40s" '' "${SEC_UPDATES}"
     fi
   else
     echo "Not supported on this distro"
