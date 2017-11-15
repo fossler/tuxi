@@ -40,7 +40,7 @@ hostn (){
 }
 
 os_name (){
-  if [[ -z $LSB_BIN ]]; then
+  if [[ -z ${LSB_BIN} ]]; then
     cat /etc/os-release | grep -e "^ID" | cut -d= -f2
   else
     lsb_release -is
@@ -56,7 +56,7 @@ os_arch (){
 }
 
 os_release (){
-  if [[ -z $LSB_BIN ]]; then
+  if [[ -z ${LSB_BIN} ]]; then
     cat /etc/os-release | grep "VERSION_ID" | cut -d'"' -f2
   else
     lsb_release -rs
@@ -64,7 +64,7 @@ os_release (){
 }
 
 os_codename (){
-  if [[ -z $LSB_BIN ]]; then
+  if [[ -z ${LSB_BIN} ]]; then
     cat /etc/os-release | grep -e "VERSION_CODENAME=" | cut -d= -f2
   else
     lsb_release -cs
