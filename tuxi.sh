@@ -77,9 +77,9 @@ os_kernel_release (){
 
 sys_check_reboot (){
   if [[ -f /var/run/reboot-required ]]; then
-    printf "$RED%-30s$DEFAULTF" '*** System reboot required ***'
+    printf "${RED}%-30s${DEFAULTF}" '*** System reboot required ***'
   else
-    printf "$GREEN%-30s$DEFAULTF" '*** No reboot required ***'
+    printf "${GREEN}%-30s${DEFAULTF}" '*** No reboot required ***'
   fi
 }
 
@@ -477,6 +477,13 @@ hw_mobo_bios_date (){
   fi
 }
 
+hw_storage_usage (){
+  # df -hT 2> /dev/null | sed '2,${/^\//!d}' | grep -v "\(loop[0-9]\|.snapshot\|tmpfs\)" | xargs -L1 echo "|" | column -s" " -t
+  # df -hTP 2> /dev/null | sed '2,${/^\//!d}' | grep -v loop[0-9] | grep -v .snapshot | xargs -L1 echo "|" | column -s" " -t
+  # echo "| foo"
+  df -Th -t ext2 -t ext4 -t cifs -t nfs -t zfs
+}
+
 # TUI
 # ##############################################################
 
@@ -520,7 +527,7 @@ printf "| $YELLOW%-7s\n$DEFAULTF" "[ RAM ]"
 printf "$(free -h | grep -v "Swap" | xargs -L1 echo "|" | sed 's/Mem: //' | column -t)\n"
 printf "|\n"
 printf "| $YELLOW%-11s\n$DEFAULTF" "[ Storage ]"
-echo -e "$(df -h 2> /dev/null | sed '2,${/^\//!d}' | grep -v loop[0-9] | grep -v .snapshot | xargs -L1 echo "|" | column -s" " -t)"
+printf "$(df -hTP 2> /dev/null | sed '2,${/^\//!d}' | grep -v loop[0-9] | grep -v .snapshot | xargs -L1 echo "|" | column -s" " -t)"
 printf "|\n"
 printf "x========[ https://github.com/fossler/tuxi ]===========================================================================================\n"
 exit
