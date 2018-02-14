@@ -141,7 +141,7 @@ user_group_membership (){
   OIFS=$IFS
   IFS=,
   COUNTER=0
-  declare -r SPLITTER=3
+  declare -r SPLITTER=6
   for i in $USER_GROUPS; do
       if [[ $COUNTER -eq $SPLITTER ]]; then
          printf "\n|\n"
