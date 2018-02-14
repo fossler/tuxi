@@ -477,11 +477,15 @@ hw_mobo_bios_date (){
   fi
 }
 
+hw_ram_usage (){
+	free -h | grep -v "Swap" | xargs -L1 echo "|" | sed 's/Mem: //' | column -t
+}
+
 hw_storage_usage (){
-  # df -hT 2> /dev/null | sed '2,${/^\//!d}' | grep -v "\(loop[0-9]\|.snapshot\|tmpfs\)" | xargs -L1 echo "|" | column -s" " -t
-  # df -hTP 2> /dev/null | sed '2,${/^\//!d}' | grep -v loop[0-9] | grep -v .snapshot | xargs -L1 echo "|" | column -s" " -t
-  # echo "| foo"
-  df -Th -t ext2 -t ext4 -t cifs -t nfs -t zfs
+  #df -hT 2> /dev/null | sed '2,${/^\//!d}' | grep -v "\(loop[0-9]\|.snapshot\|tmpfs\)" | xargs -L1 echo "|" | column -s" " -t
+  #df -hTP 2> /dev/null | sed '2,${/^\//!d}' | grep -v loop[0-9] | grep -v .snapshot | xargs -L1 echo "|" | column -s" " -t
+  echo ""
+  #df -Th -t ext2 -t ext4 -t cifs -t nfs -t zfs
 }
 
 # TUI
@@ -524,10 +528,11 @@ printf "| $YELLOW%-7s$DEFAULTF %-71s $YELLOW%-6s$DEFAULTF %-22s\n" "GPU(s):" "$(
 printf "| $YELLOW%-13s$DEFAULTF %-65s $YELLOW%-12s$DEFAULTF %-22s\n" "GLX-Renderer:" "$(hw_gpu_renderer)" "GLX-Version:" "$(hw_gpu_opengl_version)"
 printf "|\n"
 printf "| $YELLOW%-7s\n$DEFAULTF" "[ RAM ]"
-printf "$(free -h | grep -v "Swap" | xargs -L1 echo "|" | sed 's/Mem: //' | column -t)\n"
+printf "$(hw_ram_usage)\n"
 printf "|\n"
 printf "| $YELLOW%-11s\n$DEFAULTF" "[ Storage ]"
-printf "$(df -hTP 2> /dev/null | sed '2,${/^\//!d}' | grep -v loop[0-9] | grep -v .snapshot | xargs -L1 echo "|" | column -s" " -t)"
+printf "$(df)\n"
+#printf "$(df -hTP 2> /dev/null | sed '2,${/^\//!d}' | grep -v loop[0-9] | grep -v .snapshot | xargs -L1 echo "|" | column -s" " -t)"
 printf "|\n"
 printf "x========[ https://github.com/fossler/tuxi ]===========================================================================================\n"
 exit
