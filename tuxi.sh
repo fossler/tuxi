@@ -84,7 +84,7 @@ sys_check_reboot (){
 }
 
 sys_desk_env (){
-  printf "$XDG_CURRENT_DESKTOP"
+  printf "${XDG_CURRENT_DESKTOP}"
 }
 
 sys_check_updates (){
@@ -113,10 +113,10 @@ user_login_shell (){
 
 user_login_shell_ver (){
 	user_login_shell &> /dev/null
-  case "$USER_LOGIN_SHELL" in
+  case "${USER_LOGIN_SHELL}" in
     bash)
       BASH_VER=$(bash --version | grep "bash.*version" | cut -d' ' -f4 | cut -d'(' -f1)
-      echo "$BASH_VER"
+      echo "${BASH_VER}"
       ;;
     csh)
       # TBD
@@ -138,23 +138,23 @@ user_login_shell_ver (){
 }
 user_group_membership (){
   USER_GROUPS=$(id | cut -d'=' -f4)
-  OIFS=$IFS
+  OIFS=${IFS}
   IFS=,
   COUNTER=0
   declare -r SPLITTER=6
-  for i in $USER_GROUPS; do
-      if [[ $COUNTER -eq $SPLITTER ]]; then
+  for i in ${USER_GROUPS}; do
+      if [[ ${COUNTER} -eq ${SPLITTER} ]]; then
          printf "\n|\n"
          printf "%-20s" '|'
-         printf "$i  "
+         printf "${i}  "
          COUNTER=0
 	    else
-	       printf "%-s  " "$i"
+	       printf "%-s  " "${i}"
       fi
       (( COUNTER++ ))
   done
   printf "\n"
-  IFS=$OIFS
+  IFS=${OIFS}
 }
 
 # System Security
