@@ -108,7 +108,7 @@ sys_check_updates (){
 
 user_login_shell (){
   USER_LOGIN_SHELL=${SHELL##*/}
-  printf "%-s\n" "$USER_LOGIN_SHELL"
+  printf "%-s\n" "${USER_LOGIN_SHELL}"
 }
 
 user_login_shell_ver (){
@@ -167,9 +167,9 @@ if [[ $? -ne 0 ]]; then
 else
   systemctl status ufw.service | grep -w "Active: inactive" &> /dev/null
   if [[ $? -eq 0 ]]; then
-    echo -e "$RED"disabled"$DEFAULTF"
+    echo -e "${RED}"disabled"${DEFAULTF}"
   else
-    echo -e "$GREEN"enabled"$DEFAULTF"
+    echo -e "${GREEN}"enabled"${DEFAULTF}"
   fi
 fi
 }
