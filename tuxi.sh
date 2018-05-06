@@ -261,11 +261,11 @@ net_nic_ip (){
 }
 
 net_nic_netmask (){
-  NM_VAR=$(ifconfig $1 2> /dev/null | grep "Mask" | cut -d":" -f4)
-  if [[ -z $NM_VAR ]]; then
+  NM_VAR=$(ifconfig ${1} 2> /dev/null | grep "Mask" | cut -d":" -f4)
+  if [[ -z ${NM_VAR} ]]; then
     printf "%-3s\n" "---"
   else
-    printf "%-s" "$NM_VAR"
+    printf "%-s" "${NM_VAR}"
   fi
 }
 
@@ -274,16 +274,16 @@ net_dhcp_srv (){
 }
 
 net_dns_srv (){
-  if [[ $XDG_SESSION_TYPE == x11 ]] || [[ $XDG_SESSION_TYPE == mir ]]; then
+  if [[ ${XDG_SESSION_TYPE} == x11 ]] || [[ ${XDG_SESSION_TYPE} == mir ]]; then
     ACTIVE_NIC=$(ip route show | grep "default via" | head -1 | cut -d" " -f5)
-    MY_NS=($(nmcli device show $ACTIVE_NIC | grep "IP4.DNS" | cut -d":" -f2))
+    MY_NS=($(nmcli device show ${ACTIVE_NIC} | grep "IP4.DNS" | cut -d":" -f2))
     for i in "${MY_NS[@]}"; do
-      printf "%-s " "$i"
+      printf "%-s " "${i}"
     done
   else
     MY_NS=($(cat /etc/resolv.conf | grep "nameserver" | sed 's/nameserver//'))
     for i in "${MY_NS[@]}"; do
-      printf "%-s " "$i"
+      printf "%-s " "${i}"
     done
   fi
 }
@@ -349,9 +349,9 @@ hw_system_vendor (){
 }
 
 hw_system_model (){
-  PODUCT_NAME=/sys/devices/virtual/dmi/id/product_name
-  if [[ -f $PODUCT_NAME ]]; then
-    cat $PODUCT_NAME
+  PRODUCT_NAME="/sys/devices/virtual/dmi/id/product_name"
+  if [[ -f $PRODUCT_NAME ]]; then
+    cat $PRODUCT_NAME
   else
     printf "not available\n"
   fi
