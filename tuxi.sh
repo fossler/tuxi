@@ -134,8 +134,8 @@ user_login_shell_ver (){
       ZSH_VER=$(zsh --version | cut -d' ' -f2)
       ;;
   esac
-
 }
+
 user_group_membership (){
   USER_GROUPS=$(id | cut -d'=' -f4)
   OIFS=${IFS}
