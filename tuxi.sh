@@ -234,29 +234,29 @@ net_get_active_nic (){
 }
 
 net_get_gateway (){
-  VAR_GATEWAY=$(ip route show | grep -E 'default.*'$1'' | cut -d" " -f3)
-  if [[ -z $VAR_GATEWAY ]]; then
+  VAR_GATEWAY=$(ip route show | grep -E 'default.*'${1}'' | cut -d" " -f3)
+  if [[ -z ${VAR_GATEWAY} ]]; then
     printf "%-3s" "---"
   else
-    printf "%-15s" "$VAR_GATEWAY"
+    printf "%-15s" "${VAR_GATEWAY}"
   fi
 }
 
 net_mac_addr (){
-  VAR_MAC=$(ip -o link show $1 2> /dev/null | awk '{print $17}')
-  if [[ -z $VAR_MAC ]]; then
+  VAR_MAC=$(ip -o link show ${1} 2> /dev/null | awk '{print $17}')
+  if [[ -z ${VAR_MAC} ]]; then
     printf "%-3s" "---"
   else
-    printf "%-15s" "$VAR_MAC"
+    printf "%-15s" "${VAR_MAC}"
   fi
 }
 
 net_nic_ip (){
-	NIC_VAR=$(ip -o -f inet addr show $1 2> /dev/null | grep -Po 'inet \K[\d.]+')
-  if [[ -z $NIC_VAR ]]; then
+	NIC_VAR=$(ip -o -f inet addr show ${1} 2> /dev/null | grep -Po 'inet \K[\d.]+')
+  if [[ -z ${NIC_VAR} ]]; then
     printf "%-3s\n" "---"
   else
-    printf "$NIC_VAR"
+    printf "${NIC_VAR}"
   fi
 }
 
