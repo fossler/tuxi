@@ -181,9 +181,9 @@ if [[ $? -ne 0 ]]; then
 else
   systemctl status apparmor.service | grep -w "Active: inactive" &> /dev/null
   if [[ $? -eq 0 ]]; then
-    echo -e "$RED"inactive "(dead)""$DEFAULTF"
+    echo -e "${RED}"inactive "(dead)""${DEFAULTF}"
   else
-    echo -e "$GREEN"active "(exited)""$DEFAULTF"
+    echo -e "${GREEN}"active "(exited)""${DEFAULTF}"
   fi
 fi
 }
@@ -209,7 +209,7 @@ net_ip_external (){
   # dig +short myip.opendns.com @resolver1.opendns.com 2> /dev/null
 	dig TXT +short o-o.myaddr.l.google.com @ns1.google.com 2> /dev/null | awk -F'"' '{ print $2}'
   if [[ "${PIPESTATUS[0]}" -ne 0 ]]; then
-    printf "$RED%-s$DEFAULTF" "Could not resolve"
+    printf "${RED}%-s${DEFAULTF}" "Could not resolve"
   fi
 }
 
@@ -222,11 +222,11 @@ net_domain (){
 }
 
 net_inet_con_state (){
-  ping -c 1 google.com &> /dev/null && echo -e "$GREEN"Connected"$DEFAULTF" || echo -e "$RED"Disconnected"$DEFAULTF"
+  ping -c 1 google.com &> /dev/null && echo -e "${GREEN}"Connected"${DEFAULTF}" || echo -e "${RED}"Disconnected"${DEFAULTF}"
 }
 
 net_nic_state (){
-  ip -o link show $1 2> /dev/null | awk '{print $9}'
+  ip -o link show ${1} 2> /dev/null | awk '{print $9}'
 }
 
 net_get_active_nic (){
