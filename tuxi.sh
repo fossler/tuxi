@@ -340,9 +340,9 @@ hw_cpu_HT (){
 }
 
 hw_system_vendor (){
-  SYS_VENDOR=/sys/devices/virtual/dmi/id/sys_vendor
-  if [[ -f $SYS_VENDOR ]]; then
-    cat $SYS_VENDOR
+  SYS_VENDOR="/sys/devices/virtual/dmi/id/sys_vendor"
+  if [[ -f ${SYS_VENDOR} ]]; then
+    cat ${SYS_VENDOR}
   else
     printf "not available\n"
   fi
@@ -358,36 +358,36 @@ hw_system_model (){
 }
 
 hw_system_version (){
-  SYS_VER=/sys/devices/virtual/dmi/id/product_version
-  if [[ -f $SYS_VER ]]; then
-    cat $SYS_VER
+  SYS_VER="/sys/devices/virtual/dmi/id/product_version"
+  if [[ -f ${SYS_VER} ]]; then
+    cat ${SYS_VER}
   else
     printf "not available\n"
   fi
 }
 
 hw_gpu_card (){
-if [[ -z $LSHW_BIN ]];then
+if [[ -z ${LSHW_BIN} ]];then
  printf " not available\n"
 else
-	OIFS=$IFS
+	OIFS=${IFS}
 	IFS=$'\n'
 	GPUs=( $(lshw -C display 2> /dev/null | grep product | cut -d":" -f2 | sed 's/[[:space:]]//'))
 	COUNTER=0
 	declare -r SPLITTER=1
 	for i in "${GPUs[@]}"; do
-		if [[ $COUNTER -eq $SPLITTER ]]; then
+		if [[ ${COUNTER} -eq ${SPLITTER} ]]; then
 			 #printf "\n|"
 			 printf "\n%-10s" '|'
-			 printf "$i  "
+			 printf "${i}  "
 			 COUNTER=0
 		else
-			 printf "$i  "
+			 printf "${i}  "
 		fi
 		(( COUNTER++ ))
 	done
 fi
-IFS=$OIFS
+IFS=${OIFS}
 }
 
 hw_gpu_renderer (){
