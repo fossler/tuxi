@@ -486,6 +486,7 @@ hw_storage_usage (){
   #df -hTP 2> /dev/null | sed '2,${/^\//!d}' | grep -v loop[0-9] | grep -v .snapshot | xargs -L1 echo "|" | column -s" " -t
   echo ""
   #df -Th -t ext2 -t ext4 -t cifs -t nfs -t zfs
+  #echo -e "$(df -h | sed '2,${/^\//!d}' | grep -v loop[0-9] | xargs -L1 echo "|" | column -s" " -t)"
 }
 
 # TUI
@@ -531,7 +532,8 @@ printf "| $YELLOW%-7s\n$DEFAULTF" "[ RAM ]"
 printf "$(hw_ram_usage)\n"
 printf "|\n"
 printf "| $YELLOW%-11s\n$DEFAULTF" "[ Storage ]"
-printf "$(df)\n"
+#printf "$(hw_storage_usage)\n"
+echo -e "$(df -h | sed '2,${/^\//!d}' | grep -v loop[0-9] | xargs -L1 echo "|" | column -s" " -t)"
 #printf "$(df -hTP 2> /dev/null | sed '2,${/^\//!d}' | grep -v loop[0-9] | grep -v .snapshot | xargs -L1 echo "|" | column -s" " -t)"
 printf "|\n"
 printf "x========[ https://github.com/fossler/tuxi ]===========================================================================================\n"
