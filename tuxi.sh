@@ -290,7 +290,7 @@ net_dns_srv (){
 
 mask2cdr (){
     # Assumes there's no "255." after a non-255 byte in the mask
-    if [[ $1 == --- ]]; then
+    if [[ ${1} == --- ]]; then
       echo "---"
     else
       local x=${1##*255.}
@@ -304,16 +304,14 @@ mask2cdr (){
   INDEX=0
   NICs=($(ip -o link show | awk '{print $2}' | grep -v lo | sed 's/.$//' | paste -s))
 
-  for i in "${NICs[@]}"
-  do
-    NIC_details[$INDEX]+=''$i' '$(net_nic_state $i)' '$(net_nic_ip $i)' '$(net_get_gateway $i)' '$(net_nic_netmask $i)' '$(mask2cdr $(net_nic_netmask $i))' '$(net_mac_addr $i)''
+  for i in "${NICs[@]}"; do
+    NIC_details[$INDEX]+=''${i}' '$(net_nic_state ${i})' '$(net_nic_ip ${i})' '$(net_get_gateway ${i})' '$(net_nic_netmask ${i})' '$(mask2cdr $(net_nic_netmask ${i}))' '$(net_mac_addr ${i})''
     (( INDEX++ ))
   done
   printf "| %-17s| %-8s| %-15s| %-15s| %-15s| %-5s| %-5s" 'NIC' 'State' 'IP' 'Gateway' 'Netmask' 'CIDR' 'MAC'
   printf "\n"
   printf "| ---------------------------------------------------------------------------------------------------------\n"
-  for i in "${!NIC_details[@]}"
-  do
+  for i in "${!NIC_details[@]}"; do
     printf "| %-17s| %-8s| %-15s| %-15s| %-15s| %-5s| %-15s" ${NIC_details[i]}
     printf "\n"
   done
@@ -350,8 +348,8 @@ hw_system_vendor (){
 
 hw_system_model (){
   PRODUCT_NAME="/sys/devices/virtual/dmi/id/product_name"
-  if [[ -f $PRODUCT_NAME ]]; then
-    cat $PRODUCT_NAME
+  if [[ -f ${PRODUCT_NAME} ]]; then
+    cat ${PRODUCT_NAME}
   else
     printf "not available\n"
   fi
@@ -367,7 +365,7 @@ hw_system_version (){
 }
 
 hw_gpu_card (){
-if [[ -z ${LSHW_BIN} ]];then
+if [[ -z ${LSHW_BIN} ]]; then
  printf " not available\n"
 else
 	OIFS=${IFS}
@@ -394,7 +392,7 @@ hw_gpu_renderer (){
   glxinfo &> /dev/null
   if [[ $? -ne 0 ]]; then
     printf " not available\n"
-  elif [[ -z $GLXINFO_BIN ]]; then
+  elif [[ -z ${GLXINFO_BIN} ]]; then
     printf " not available\n"
   else
     glxinfo 2> /dev/null | grep "OpenGL renderer string" | cut -d':' -f2 | sed 's/[[:space:]]//'
