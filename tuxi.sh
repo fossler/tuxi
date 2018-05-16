@@ -403,7 +403,7 @@ hw_gpu_memory_size (){
   glxinfo &> /dev/null
   if [[ $? -ne 0 ]]; then
     printf " not available\n"
-  elif [[ -z $GLXINFO_BIN ]]; then
+  elif [[ -z ${GLXINFO_BIN} ]]; then
     printf " not available\n"
   else
     glxinfo 2> /dev/null | grep "Video memory:" | cut -d: -f2
@@ -414,7 +414,7 @@ hw_gpu_opengl_version (){
   glxinfo &> /dev/null
   if [[ $? -ne 0 ]]; then
     printf " not available\n"
-  elif [[ -z $GLXINFO_BIN ]]; then
+  elif [[ -z ${GLXINFO_BIN} ]]; then
     printf " not available\n"
   else
     glxinfo 2> /dev/null | grep "OpenGL version string:" | cut -d: -f2
@@ -423,8 +423,8 @@ hw_gpu_opengl_version (){
 
 hw_mobo_vendor (){
   MOBO_VENDOR=/sys/devices/virtual/dmi/id/board_vendor
-  if [[ -f $MOBO_VENDOR ]]; then
-    cat $MOBO_VENDOR
+  if [[ -f ${MOBO_VENDOR} ]]; then
+    cat ${MOBO_VENDOR}
   else
     printf "not available\n"
   fi
