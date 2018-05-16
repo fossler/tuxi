@@ -432,8 +432,8 @@ hw_mobo_vendor (){
 
 hw_mobo_version (){
   MOBO_VERSION=/sys/devices/virtual/dmi/id/board_version
-  if [[ -f $MOBO_VERSION ]]; then
-    cat $MOBO_VERSION
+  if [[ -f ${MOBO_VERSION} ]]; then
+    cat ${MOBO_VERSION}
   else
     printf "not available\n"
   fi
@@ -441,8 +441,8 @@ hw_mobo_version (){
 
 hw_mobo_name (){
   MOBO_NAME=/sys/devices/virtual/dmi/id/board_name
-  if [[ -f $MOBO_NAME ]]; then
-    cat $MOBO_NAME
+  if [[ -f ${MOBO_NAME} ]]; then
+    cat ${MOBO_NAME}
   else
     printf "not available\n"
   fi
