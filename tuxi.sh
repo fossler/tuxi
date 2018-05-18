@@ -422,7 +422,7 @@ hw_gpu_opengl_version (){
 }
 
 hw_mobo_vendor (){
-  MOBO_VENDOR=/sys/devices/virtual/dmi/id/board_vendor
+  MOBO_VENDOR="/sys/devices/virtual/dmi/id/board_vendor"
   if [[ -f ${MOBO_VENDOR} ]]; then
     cat ${MOBO_VENDOR}
   else
@@ -431,7 +431,7 @@ hw_mobo_vendor (){
 }
 
 hw_mobo_version (){
-  MOBO_VERSION=/sys/devices/virtual/dmi/id/board_version
+  MOBO_VERSION="/sys/devices/virtual/dmi/id/board_version"
   if [[ -f ${MOBO_VERSION} ]]; then
     cat ${MOBO_VERSION}
   else
@@ -440,7 +440,7 @@ hw_mobo_version (){
 }
 
 hw_mobo_name (){
-  MOBO_NAME=/sys/devices/virtual/dmi/id/board_name
+  MOBO_NAME="/sys/devices/virtual/dmi/id/board_name"
   if [[ -f ${MOBO_NAME} ]]; then
     cat ${MOBO_NAME}
   else
@@ -449,16 +449,16 @@ hw_mobo_name (){
 }
 
 hw_mobo_bios_vendor (){
-  BIOS_VENDOR=/sys/devices/virtual/dmi/id/bios_vendor
-  if [[ -f $BIOS_VENDOR ]]; then
-    cat $BIOS_VENDOR
+  BIOS_VENDOR="/sys/devices/virtual/dmi/id/bios_vendor"
+  if [[ -f ${BIOS_VENDOR} ]]; then
+    cat ${BIOS_VENDOR}
   else
     printf "not available\n"
   fi
 }
 
 hw_mobo_bios_version (){
-  BIOS_VERSION=/sys/devices/virtual/dmi/id/bios_version
+  BIOS_VERSION="/sys/devices/virtual/dmi/id/bios_version"
   if [[ -f $BIOS_VERSION ]]; then
     cat $BIOS_VERSION
   else
@@ -467,9 +467,9 @@ hw_mobo_bios_version (){
 }
 
 hw_mobo_bios_date (){
-  BIOS_DATE=/sys/devices/virtual/dmi/id/bios_date
-  if [[ -f $BIOS_DATE ]]; then
-    cat $BIOS_DATE
+  BIOS_DATE="/sys/devices/virtual/dmi/id/bios_date"
+  if [[ -f ${BIOS_DATE} ]]; then
+    cat ${BIOS_DATE}
   else
     printf "not available\n"
   fi
