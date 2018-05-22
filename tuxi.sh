@@ -19,6 +19,11 @@ clear
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
+# install prerequisites
+# ######################################################################
+apt install mesa-utils # Miscellaneous Mesa GL utilities
+
+
 # general vars
 # ##############################################################
 RUID=$(env | grep "SUDO_USER" | cut -d"=" -f1)
