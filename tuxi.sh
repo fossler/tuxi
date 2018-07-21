@@ -21,7 +21,23 @@ clear
 
 # install prerequisites
 # ######################################################################
-apt install mesa-utils # Miscellaneous Mesa GL utilities
+DEP_FILE="/var/lib/tuxi/dependencies-ok"
+
+if [[ ! -f ${DEP_FILE} ]] && [[ ${EUID} -ne 0 ]]; then
+  printf "******************************************\n"
+  printf "* [ ERROR ]\n"
+  printf "*\n"
+  printf "* This script must be run as root or sudo\n" >&2
+  printf "*\n"
+  printf "******************************************\n"
+  exit 1
+elif [[ ! -f ${DEP_FILE} ]] && [[ ${EUID} -eq 0 ]]; then
+  mkdir -p ${DEP_FILE%/*}
+  touch ${DEP_FILE}
+  apt install mesa-utils # Miscellaneous Mesa GL utilities
+  clear
+fi
+
 
 
 # general vars
