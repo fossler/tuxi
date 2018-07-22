@@ -19,25 +19,42 @@ clear
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
+# Check if Desktop
+# ######################################################################
+IS_DESKTOP="false"
+
+displayManager=(
+  'xserver-common' # X Window System (X.Org) infrastructure
+  'xwayland' # Xwayland X server
+)
+for i in "${displayManager[@]}"; do
+  dpkg-query --show --showformat='${Status}\n' $i 2> /dev/null | grep "install ok installed" &> /dev/null
+  if [[ $? -eq 0 ]]; then
+    IS_DESKTOP="true"
+  fi
+done
+
+
 # install prerequisites
 # ######################################################################
 DEP_FILE="/var/lib/tuxi/dependencies-ok"
 
-if [[ ! -f ${DEP_FILE} ]] && [[ ${EUID} -ne 0 ]]; then
-  printf "******************************************\n"
-  printf "* [ ERROR ]\n"
-  printf "*\n"
-  printf "* This script must be run as root or sudo\n" >&2
-  printf "*\n"
-  printf "******************************************\n"
-  exit 1
-elif [[ ! -f ${DEP_FILE} ]] && [[ ${EUID} -eq 0 ]]; then
-  mkdir -p ${DEP_FILE%/*}
-  touch ${DEP_FILE}
-  apt install mesa-utils # Miscellaneous Mesa GL utilities
-  clear
+if [[ ${IS_DESKTOP} == true ]]; then
+  if [[ ! -f ${DEP_FILE} ]] && [[ ${EUID} -ne 0 ]]; then
+    printf "******************************************\n"
+    printf "* [ ERROR ]\n"
+    printf "*\n"
+    printf "* This script must be run as root or sudo\n" >&2
+    printf "*\n"
+    printf "******************************************\n"
+    exit 1
+  elif [[ ! -f ${DEP_FILE} ]] && [[ ${EUID} -eq 0 ]]; then
+    mkdir -p ${DEP_FILE%/*}
+    touch ${DEP_FILE}
+    apt install mesa-utils # Miscellaneous Mesa GL utilities
+    clear
+  fi
 fi
-
 
 
 # general vars
