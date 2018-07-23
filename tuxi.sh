@@ -19,6 +19,57 @@ clear
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
+textbox_one_liner_info (){
+	if [[ $# -eq 0 ]]; then
+		printf "${RED}%-s${DEFAULTF}\n" "*** No arguments were provided !!! ***"
+	elif [[ $# -gt 1 ]]; then
+		printf "${RED}%-s${DEFAULTF}\n" "*** Only one arguments allowed !!! ***"
+	else
+		printf "${LIGHT_GREEN}%s${DEFAULTF}\n" "*** ${1} ***"
+	fi
+}
+
+# Detect Distro
+# ######################################################################
+LSB_BIN=$(which lsb_release 2>/dev/null || command -v lsb_release 2>/dev/null)
+
+if [[ ! -z ${LSB_BIN} ]]; then
+	DISTRO=$(${LSB_BIN} -si)_$(${LSB_BIN} -sr)
+	textbox_one_liner_info "detected: ${DISTRO}"
+elif [[ -f /etc/os-release ]]; then
+	source /etc/os-release
+	DISTRO=${ID}_${VERSION_ID}
+	textbox_one_liner_info "detected: ${DISTRO}"
+elif [[ -f /etc/centos-release ]]; then
+	CENTOS_VER=$(cat /etc/centos-release | grep -o [0-9] | head -1)
+	DISTRO=CentOS_${CENTOS_VER}
+	textbox_one_liner_info "detected: ${DISTRO}"
+else
+	textbox_one_liner_error "Failed to detect Distribution"
+	exit 1
+fi
+
+
+# Command to Distro mapping
+# ######################################################################
+case ${DISTRO^^} in
+	UBUNTU_18.04 )
+        INSTALL_PKG="apt install"
+				;;
+	UBUNTU_16.04 )
+				INSTALL_PKG="apt install"
+				;;
+  CENTOS_7 )
+        INSTALL_PKG="yum install"
+        ;;
+	CENTOS_6 )
+				INSTALL_PKG="yum install"
+				;;
+	* )
+				textbox_one_liner_error "Unknown Distribution"
+				exit 1
+esac
+
 # Check if Desktop
 # ######################################################################
 IS_DESKTOP="false"
@@ -51,7 +102,7 @@ if [[ ${IS_DESKTOP} == true ]]; then
   elif [[ ! -f ${DEP_FILE} ]] && [[ ${EUID} -eq 0 ]]; then
     mkdir -p ${DEP_FILE%/*}
     touch ${DEP_FILE}
-    apt install mesa-utils # Miscellaneous Mesa GL utilities
+    ${INSTALL_PKG} mesa-utils # Miscellaneous Mesa GL utilities
     clear
   fi
 fi
