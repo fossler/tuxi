@@ -35,15 +35,12 @@ LSB_BIN=$(which lsb_release 2>/dev/null || command -v lsb_release 2>/dev/null)
 
 if [[ ! -z ${LSB_BIN} ]]; then
 	DISTRO=$(${LSB_BIN} -si)_$(${LSB_BIN} -sr)
-	textbox_one_liner_info "detected: ${DISTRO}"
 elif [[ -f /etc/os-release ]]; then
 	source /etc/os-release
 	DISTRO=${ID}_${VERSION_ID}
-	textbox_one_liner_info "detected: ${DISTRO}"
 elif [[ -f /etc/centos-release ]]; then
 	CENTOS_VER=$(cat /etc/centos-release | grep -o [0-9] | head -1)
 	DISTRO=CentOS_${CENTOS_VER}
-	textbox_one_liner_info "detected: ${DISTRO}"
 else
 	textbox_one_liner_error "Failed to detect Distribution"
 	exit 1
