@@ -29,9 +29,14 @@ textbox_one_liner_info (){
 	fi
 }
 
+locate_bin (){
+	which ${1} 2>/dev/null || command -v ${1} 2>/dev/null
+}
+
+
 # Detect Distro
 # ######################################################################
-LSB_BIN=$(which lsb_release 2>/dev/null || command -v lsb_release 2>/dev/null)
+LSB_BIN=$(locate_bin lsb_release)
 
 if [[ ! -z ${LSB_BIN} ]]; then
 	DISTRO=$(${LSB_BIN} -si)_$(${LSB_BIN} -sr)
@@ -108,9 +113,9 @@ fi
 # general vars
 # ##############################################################
 RUID=$(env | grep "SUDO_USER" | cut -d"=" -f1)
-LSB_BIN=$(which lsb_release)
-GLXINFO_BIN=$(which glxinfo)
-LSHW_BIN=$(which lshw)
+LSB_BIN=$(locate_bin lsb_release)
+GLXINFO_BIN=$(locate_bin glxinfo)
+LSHW_BIN=$(locate_bin lshw)
 
 # COLOR definitions
 YELLOW='\e[33m'
