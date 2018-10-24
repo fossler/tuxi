@@ -29,9 +29,34 @@ textbox_one_liner_info (){
 	fi
 }
 
+textbox_error_msg (){
+	printf "\n"
+	printf "*******************************************************\n"
+	printf "%-s ${RED}%-s${DEFAULTF}\n" "*" "[ ERROR ]"
+  printf "*\n"
+	if [[ $# -eq 0 ]]; then
+		printf "%-s ${RED}%-s${DEFAULTF}\n" "*" "No arguments were provided !!!"
+		printf "*\n"
+	else
+		while [[ $# -gt 0 ]]; do
+			printf "%-s %-s\n" "*" "${1}"
+			printf "*\n"
+			shift
+		done
+	fi
+	printf "*******************************************************\n"
+  printf "\n"
+}
+
 locate_bin (){
 	which ${1} 2>/dev/null || command -v ${1} 2>/dev/null
 }
+
+# COLOR definitions
+YELLOW='\e[33m'
+RED='\e[31m'
+GREEN='\e[32m'
+DEFAULTF='\e[0m'
 
 
 # Detect Distro
@@ -47,7 +72,7 @@ elif [[ -f /etc/centos-release ]]; then
 	CENTOS_VER=$(cat /etc/centos-release | grep -o [0-9] | head -1)
 	DISTRO=CentOS_${CENTOS_VER}
 else
-	textbox_one_liner_error "Failed to detect Distribution"
+	textbox_error_msg "Failed to detect Distribution"
 	exit 1
 fi
 
@@ -68,9 +93,10 @@ case ${DISTRO^^} in
 				INSTALL_PKG="yum install"
 				;;
 	* )
-				textbox_one_liner_error "Unknown Distribution"
+				textbox_error_msg "Unknown Distribution"
 				exit 1
 esac
+
 
 # Check if Desktop
 # ######################################################################
@@ -116,12 +142,6 @@ RUID=$(env | grep "SUDO_USER" | cut -d"=" -f1)
 LSB_BIN=$(locate_bin lsb_release)
 GLXINFO_BIN=$(locate_bin glxinfo)
 LSHW_BIN=$(locate_bin lshw)
-
-# COLOR definitions
-YELLOW='\e[33m'
-RED='\e[31m'
-GREEN='\e[32m'
-DEFAULTF='\e[0m'
 
 # Systeminfo
 # ##############################################################
