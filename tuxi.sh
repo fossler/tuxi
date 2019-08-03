@@ -80,6 +80,10 @@ fi
 # Command to Distro mapping
 # ######################################################################
 case ${DISTRO^^} in
+	UBUNTU_19.04 )
+				INSTALL_PKG="apt install"
+				;;
+
 	UBUNTU_18.10 )
 				INSTALL_PKG="apt install"
 				;;
