@@ -93,6 +93,9 @@ case ${DISTRO^^} in
 	UBUNTU_16.04 )
 				INSTALL_PKG="apt install"
 				;;
+  	DEBIAN_10 )
+				INSTALL_PKG="apt install"
+				;;
   CENTOS_7 )
         INSTALL_PKG="yum install"
         ;;
